@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ItemCollectionViewCell" id="gTV-IL-0wX" customClass="ItemCollectionViewCell" customModule="theMovie_app" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="165" height="172"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="165" height="172"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dSS-OC-1nu">
+                        <rect key="frame" x="0.0" y="0.0" width="174" height="172"/>
+                    </imageView>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="dSS-OC-1nu" secondAttribute="bottom" id="JVj-6J-6lL"/>
+                <constraint firstItem="dSS-OC-1nu" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="YWH-Nv-8i3"/>
+                <constraint firstItem="dSS-OC-1nu" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="oRz-qo-Zr0"/>
+                <constraint firstAttribute="trailing" secondItem="dSS-OC-1nu" secondAttribute="trailing" constant="-9" id="rMS-0K-k8L"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <size key="customSize" width="165" height="172"/>
+            <connections>
+                <outlet property="imageView" destination="dSS-OC-1nu" id="fQB-Ai-sN5"/>
+            </connections>
+            <point key="canvasLocation" x="137" y="112"/>
+        </collectionViewCell>
+    </objects>
+</document>
