@@ -20,7 +20,6 @@
 		763B7FE823A949A7002FEC94 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763B7FE723A949A7002FEC94 /* Movie.swift */; };
 		763B7FEB23A95A17002FEC94 /* PopularMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763B7FEA23A95A17002FEC94 /* PopularMovie.swift */; };
 		763B7FED23A95A47002FEC94 /* GenreList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763B7FEC23A95A47002FEC94 /* GenreList.swift */; };
-		763B7FEF23A95BC7002FEC94 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763B7FEE23A95BC7002FEC94 /* APIClient.swift */; };
 		763B7FF123A95DD2002FEC94 /* TheMovieRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763B7FF023A95DD2002FEC94 /* TheMovieRoutes.swift */; };
 		763B7FF523A96DB8002FEC94 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763B7FF423A96DB8002FEC94 /* APIError.swift */; };
 		763B7FF723A9703E002FEC94 /* RestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763B7FF623A9703E002FEC94 /* RestManager.swift */; };
@@ -55,7 +54,6 @@
 		763B7FE723A949A7002FEC94 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		763B7FEA23A95A17002FEC94 /* PopularMovie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularMovie.swift; sourceTree = "<group>"; };
 		763B7FEC23A95A47002FEC94 /* GenreList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreList.swift; sourceTree = "<group>"; };
-		763B7FEE23A95BC7002FEC94 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		763B7FF023A95DD2002FEC94 /* TheMovieRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheMovieRoutes.swift; sourceTree = "<group>"; };
 		763B7FF423A96DB8002FEC94 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		763B7FF623A9703E002FEC94 /* RestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestManager.swift; sourceTree = "<group>"; };
@@ -155,7 +153,6 @@
 		763B7FE923A94A8F002FEC94 /* REST */ = {
 			isa = PBXGroup;
 			children = (
-				763B7FEE23A95BC7002FEC94 /* APIClient.swift */,
 				763B7FF023A95DD2002FEC94 /* TheMovieRoutes.swift */,
 				763B7FF423A96DB8002FEC94 /* APIError.swift */,
 				763B7FF623A9703E002FEC94 /* RestManager.swift */,
@@ -278,7 +275,6 @@
 				763B7FED23A95A47002FEC94 /* GenreList.swift in Sources */,
 				763B7FF123A95DD2002FEC94 /* TheMovieRoutes.swift in Sources */,
 				763B7FF723A9703E002FEC94 /* RestManager.swift in Sources */,
-				763B7FEF23A95BC7002FEC94 /* APIClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
