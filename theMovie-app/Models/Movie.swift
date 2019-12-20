@@ -8,13 +8,21 @@
 
 import Foundation
 
-class Movie: Codable {
+struct Movie: Codable {
     
-    var id: Int
-    var title: String = ""
-    var genres: [Int] = []
-    var overview: String = ""
-    var release: String?
-    var posterPath: String?
+    let id: Int
+    let title: String = ""
+    let genreID: [Int] = []
+    let overview: String = ""
+    let release: String?
+    let posterPath: String?
+    
+    enum CodinKeys: String, CodingKey {
+        case title
+        case genresID = "genre_ids"
+        case posterPath = "poster_path"
+        case overview
+        case release
+    }
     
 }
