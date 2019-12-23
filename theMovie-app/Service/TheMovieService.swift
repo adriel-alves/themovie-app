@@ -10,6 +10,6 @@ import Foundation
 
 protocol TheMovieService {
     
-    func getAllPopularMovies(completion: @escaping (Result<PopularMovies?, APIError>) -> Void)
+    func getAllPopularMovies(completion: @escaping (Result<PopularMovies, APIError>) -> Void)
     
 }

@@ -10,60 +10,41 @@ import Foundation
 
 protocol HTTPClient {
     
-    var session: URLSession { get }
-    func perform<T: Decodable>(_ request: URLRequest, decode: @escaping (Decodable) -> T?, completion: @escaping (Result<T, APIError>) -> Void)
+    func perform<T: Decodable>(_ request: URLRequest, _ completion: @escaping (Result<T, APIError>) -> Void)
 }
 
-extension HTTPClient {
+class HTTP: HTTPClient {
     
-    typealias DecodingHandler = (Decodable?, APIError?) -> Void
+    let session: URLSession = .shared
     
-    func decoding<T: Decodable>(_ request: URLRequest, decodingType: T.Type, _ completion: @escaping DecodingHandler) -> URLSessionDataTask{
+    func perform<T: Decodable>(_ request: URLRequest,
+                               _ completion: @escaping (Result<T, APIError>) -> Void) {
         
-        let dataTask = self.session.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
-            if error == nil {
-                guard let response = response as? HTTPURLResponse else {
-                    completion(nil, .noRespose)
-                    return
-                }
-                if response.statusCode == 200 {
-                    guard let data = data else { return }
-                    do {
-                        let model = try JSONDecoder().decode(decodingType.self, from: data)
-                        completion(model, nil)
-                    } catch  {
-                        completion(nil, .decodingFailure)
-                    }
-                } else {
-                    completion(nil, .resposeStatusCode(code: response.statusCode))
-                }
+        let dataTask = session.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
+            if let error = error {
+                completion(.failure(.taskError(error: error)))
             } else {
-                completion(nil, .taskError(error: error!))
-            }
-        }
-        return dataTask
-    }
-    
-    func perform<T: Decodable>(_ request: URLRequest, decode: @escaping (Decodable) -> T?, completion: @escaping (Result<T, APIError>) -> Void) {
-        
-        let task = self.decoding(request, decodingType: T.self) { json, error in
-            
-            DispatchQueue.main.async {
-                guard let json = json else {
-                    if let error = error {
-                        completion(.failure(error))
+                DispatchQueue.main.async {
+                    guard let response = response as? HTTPURLResponse else {
+                        completion(.failure(.noResponse))
+                        return
                     }
-                    return
-                }
-                if let value = decode(json) {
-                    completion(.success(value))
-                } else {
-                    completion(.failure(.invalidJSON))
+                    
+                    if response.statusCode == 200 {
+                        guard let data = data else { return }
+                        do {
+                            let model = try JSONDecoder().decode(T.self, from: data)
+                            completion(.success(model))
+                        } catch  {
+                            completion(.failure(.decodingFailure))
+                        }
+                    } else {
+                        completion(.failure(.responseStatusCode(code: response.statusCode)))
+                    }
                 }
             }
-            
         }
-        task.resume()
         
+        dataTask.resume()
     }
 }

@@ -10,11 +10,12 @@ import UIKit
 
 class ItemCollectionViewCell: UICollectionViewCell {
 
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var uiMoviePoster: UIImageView!
+    @IBOutlet weak var lbMovieTitle: UILabel!
+    @IBOutlet weak var uiFavorite: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
 }
