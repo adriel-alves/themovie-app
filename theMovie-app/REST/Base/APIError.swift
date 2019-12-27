@@ -15,6 +15,7 @@ enum APIError: Error {
     case noData
     case responseStatusCode(code: Int)
     case invalidJSON
+    case requestFailed
     
 }
 
@@ -23,7 +24,7 @@ extension APIError: LocalizedError {
         switch self {
         case
         .decodingFailure:
-            return NSLocalizedString("Decoding Failuer", comment: "")
+            return NSLocalizedString("Decoding Failure", comment: "")
         case .taskError(let error):
             return NSLocalizedString("Task Error \(error)", comment: "")
         case .noResponse:
@@ -34,6 +35,9 @@ extension APIError: LocalizedError {
             return NSLocalizedString("Status Code \(code)", comment: "")
         case .invalidJSON:
             return NSLocalizedString("Invalid JSON", comment: "")
+        case .requestFailed:
+        return "Request failed"
+
         }
     }
 }

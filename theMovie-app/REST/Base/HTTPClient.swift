@@ -33,7 +33,9 @@ class HTTP: HTTPClient {
                     if response.statusCode == 200 {
                         guard let data = data else { return }
                         do {
-                            let model = try JSONDecoder().decode(T.self, from: data)
+                            let decoder = JSONDecoder()
+                            decoder.keyDecodingStrategy = .convertFromSnakeCase
+                            let model = try decoder.decode(T.self, from: data)
                             completion(.success(model))
                         } catch  {
                             completion(.failure(.decodingFailure))

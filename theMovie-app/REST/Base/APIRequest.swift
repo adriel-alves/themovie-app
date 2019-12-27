@@ -10,14 +10,15 @@ import Foundation
 
 struct APIRequest {
     
-    let basePath = "https://api.themoviedb.org/3"
+    let basePath = "https://api.themoviedb.org"
     let apiKey = "a2c5a2ef4c5d857540b54d155dd1ae9c"
+    let api = "3"
     
 }
 
 extension APIRequest {
     
-    func request(path: String, method: HTTPMethod, page: String) -> URLRequest {
+    func request(path: String, method: HTTPMethod, page: Int) -> URLRequest {
         var request: URLRequest
         guard let url = URL(string: basePath) else { fatalError("Bad resourceName: \(basePath)") }
         var components = URLComponents(url: url, resolvingAgainstBaseURL: true)!
@@ -25,11 +26,11 @@ extension APIRequest {
         let commonQueryItems = [
             URLQueryItem(name: "api_key", value: apiKey),
             URLQueryItem(name: "language", value: "en-US"),
-            URLQueryItem(name: "page", value: page)
+            URLQueryItem(name: "page", value: String(page))
         ]
         
         components.queryItems = commonQueryItems
-        components.path = path
+        components.path = "/\(api)/\(path)"
         
         request = URLRequest(url: components.url!)
         request.httpMethod = method.toString()
