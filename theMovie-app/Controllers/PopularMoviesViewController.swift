@@ -17,11 +17,13 @@ class PopularMoviesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        requestMovies()
         setupCollectionView()
+        requestMovies()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        cvPopularMovies?.reloadData()
     }
     
     override func viewWillLayoutSubviews() {
@@ -61,17 +63,24 @@ class PopularMoviesViewController: UIViewController {
 
 }
 
-extension PopularMoviesViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension PopularMoviesViewController: UICollectionViewDelegate {
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let item = popularMovies.movies[indexPath.item].overview
+       print(item)
+    }
+}
+
+extension PopularMoviesViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return popularMovies.movies.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = cvPopularMovies.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! ItemCollectionViewCell
-        cell.lbMovieTitle.text = popularMovies.movies[indexPath.item].title
-        return cell
-    }
-    
-    
+              let cell = cvPopularMovies.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! ItemCollectionViewCell
+              cell.lbMovieTitle.text = popularMovies.movies[indexPath.item].title
+              cell.uiMoviePoster.load(url: popularMovies.movies[indexPath.item].posterPath!)
+              return cell
+          }
 }

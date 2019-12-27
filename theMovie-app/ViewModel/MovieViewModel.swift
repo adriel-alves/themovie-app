@@ -31,7 +31,11 @@ class MovieViewModel {
         return formatter.date(from: release)
     }
     var posterPath: URL? {
-        return URL(string: "https://image.tmdb.org/t/p/\(movie.posterPath ?? "")")
+        return URL(string: "https://image.tmdb.org/t/p\(movie.posterPath ?? "")")
+    }
+    
+    init(_ movie: Movie) {
+        self.movie = movie
     }
     
 }

@@ -32,7 +32,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="SL0-Gg-vOd" customClass="ItemCollectionViewCell" customModule="theMovie_app" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="" id="SL0-Gg-vOd">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="sHu-3E-2eA">
@@ -75,7 +75,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="kwj-BY-k7c"/>
                     <connections>
-                        <outlet property="cvPopularMovies" destination="BMb-GW-ih6" id="3JI-Ne-REe"/>
+                        <outlet property="cvPopularMovies" destination="BMb-GW-ih6" id="8fD-Nc-nKb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

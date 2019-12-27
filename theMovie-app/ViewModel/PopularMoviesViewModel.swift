@@ -11,9 +11,8 @@ import Foundation
 class PopularMoviesViewModel {
     
     var theMovieService: TheMovieService
-    var popularMovies: PopularMovies!
-    
-    var movies: [Movie] = []
+    var popularMovies: PopularMovies!    
+    var movies: [MovieViewModel] = []
   
     init(theMovieService: TheMovieService = TheMovieServiceImpl()) {
         self.theMovieService = theMovieService
@@ -26,8 +25,8 @@ class PopularMoviesViewModel {
             case .failure(let error):
                 print(APIError.taskError(error: error))
             case .success(let popularMovies):
-                self.popularMovies = popularMovies
-                self.movies = popularMovies.results
+                self.movies.append(contentsOf: popularMovies.results.map({ MovieViewModel($0) }))
+        
             }
         }
     }
