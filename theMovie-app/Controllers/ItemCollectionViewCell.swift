@@ -9,13 +9,14 @@
 import UIKit
 
 class ItemCollectionViewCell: UICollectionViewCell {
-
+    
     @IBOutlet weak var uiMoviePoster: UIImageView!
     @IBOutlet weak var lbMovieTitle: UILabel!
     @IBOutlet weak var uiFavorite: UIImageView!
     
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-
+    
 }

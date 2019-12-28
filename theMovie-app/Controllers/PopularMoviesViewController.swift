@@ -9,26 +9,32 @@
 import UIKit
 
 class PopularMoviesViewController: UIViewController {
-
+    
     @IBOutlet weak var cvPopularMovies: UICollectionView!
     var collectionViewFlowLayout: UICollectionViewFlowLayout!
     let cellIdentifier = "ItemCollectionViewCell"
     var popularMovies = PopularMoviesViewModel()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
-        requestMovies()
+        setupCollectionViewItemSize()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        cvPopularMovies?.reloadData()
+        requestMovies()
+        DispatchQueue.main.async {
+            self.cvPopularMovies?.reloadData()
+        }
+        
+        
     }
     
     override func viewWillLayoutSubviews() {
+        requestMovies()
         super.viewWillLayoutSubviews()
-        setupCollectionViewItemSize()
     }
     
     private func setupCollectionView() {
@@ -41,10 +47,10 @@ class PopularMoviesViewController: UIViewController {
     private func setupCollectionViewItemSize() {
         let itemsPerRow: CGFloat = 2
         let lineSpacing: CGFloat = 3
-        let interItemSpacing: CGFloat = 5
+        let interItemSpacing: CGFloat = 1
         
         let width = (cvPopularMovies.frame.width - (itemsPerRow - 1) * interItemSpacing) / itemsPerRow
-        let height = width
+        let height = width * 1.5
         
         collectionViewFlowLayout = UICollectionViewFlowLayout()
         collectionViewFlowLayout.itemSize = CGSize(width: width, height: height)
@@ -60,15 +66,7 @@ class PopularMoviesViewController: UIViewController {
     private func requestMovies() {
         popularMovies.requestMovies()
     }
-
-}
-
-extension PopularMoviesViewController: UICollectionViewDelegate {
-
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let item = popularMovies.movies[indexPath.item].overview
-       print(item)
-    }
+    
 }
 
 extension PopularMoviesViewController: UICollectionViewDataSource {
@@ -78,9 +76,23 @@ extension PopularMoviesViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-              let cell = cvPopularMovies.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! ItemCollectionViewCell
-              cell.lbMovieTitle.text = popularMovies.movies[indexPath.item].title
-              cell.uiMoviePoster.load(url: popularMovies.movies[indexPath.item].posterPath!)
-              return cell
-          }
+        let cell = cvPopularMovies.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! ItemCollectionViewCell
+        cell.uiMoviePoster.load(url: popularMovies.movies[indexPath.item].posterPath!)
+        cell.lbMovieTitle.text = popularMovies.movies[indexPath.item].title
+        return cell
+    }
+    
+    
 }
+
+extension PopularMoviesViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let item = popularMovies.movies[indexPath.item].overview
+        print(item)
+    }
+}
+
+
+
+

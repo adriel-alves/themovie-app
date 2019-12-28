@@ -15,5 +15,5 @@ struct Movie: Codable {
     var genreIds: [Int] = []
     var overview: String = ""
     var releaseDate: String?
-    var posterPath: String?
+    var posterPath: String
 }

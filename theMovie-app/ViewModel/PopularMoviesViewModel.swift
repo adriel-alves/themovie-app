@@ -11,7 +11,6 @@ import Foundation
 class PopularMoviesViewModel {
     
     var theMovieService: TheMovieService
-    var popularMovies: PopularMovies!    
     var movies: [MovieViewModel] = []
   
     init(theMovieService: TheMovieService = TheMovieServiceImpl()) {
