@@ -19,4 +19,9 @@ class ItemCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
     }
     
+    func prepare(with movie: MovieViewModel) {
+        uiMoviePoster.load(url: movie.posterPath!)
+        lbMovieTitle.text = movie.title
+    }
+    
 }

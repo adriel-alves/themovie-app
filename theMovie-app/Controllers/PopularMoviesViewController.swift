@@ -18,23 +18,25 @@ class PopularMoviesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupNavigationBar()
+        requestMovies()
         setupCollectionView()
         setupCollectionViewItemSize()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        requestMovies()
         DispatchQueue.main.async {
             self.cvPopularMovies?.reloadData()
         }
-        
-        
     }
     
-    override func viewWillLayoutSubviews() {
-        requestMovies()
-        super.viewWillLayoutSubviews()
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? MovieDetailViewController {
+            if let movie = sender as? MovieViewModel {
+            vc.movie = movie
+            }
+        }
     }
     
     private func setupCollectionView() {
@@ -77,19 +79,17 @@ extension PopularMoviesViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = cvPopularMovies.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! ItemCollectionViewCell
-        cell.uiMoviePoster.load(url: popularMovies.movies[indexPath.item].posterPath!)
-        cell.lbMovieTitle.text = popularMovies.movies[indexPath.item].title
+        cell.prepare(with: popularMovies.movies[indexPath.item])
         return cell
     }
-    
     
 }
 
 extension PopularMoviesViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let item = popularMovies.movies[indexPath.item].overview
-        print(item)
+        let movie = popularMovies.movies[indexPath.item]
+        performSegue(withIdentifier: "movieDetailSegue", sender: movie)
     }
 }
 
