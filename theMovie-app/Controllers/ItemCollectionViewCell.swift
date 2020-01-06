@@ -24,4 +24,10 @@ class ItemCollectionViewCell: UICollectionViewCell {
         lbMovieTitle.text = movie.title
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        lbMovieTitle.text = ""
+        uiMoviePoster.image = UIImage.init(named: "images")
+        
+    }
 }

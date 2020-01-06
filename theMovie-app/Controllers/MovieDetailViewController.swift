@@ -29,7 +29,7 @@ class MovieDetailViewController: UIViewController {
         ivMoviePoster.load(url: movie.posterPath!)
         lbMovieTitle.text = movie.title
         lbMovieGenres.text = "lista dos generos"
-        lbMovieYear.text = movie.releaseDate?.description
+        lbMovieYear.text = movie.year
         tvMovieOverview.text = movie.overview
     }
     

@@ -14,22 +14,35 @@ class MovieViewModel {
     var title: String {
         return movie.title
     }
+    
     var genresIds: [Int] {
         return movie.genreIds
     }
+    
     var overview: String {
         return movie.overview
     }
+    
     var releaseDate: Date? {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-mm-dd"
         
-        guard let release = movie.releaseDate else {
+        if let release = movie.releaseDate {
+            return formatter.date(from: release)
+        } else {
             return nil
         }
-        
-        return formatter.date(from: release)
     }
+    
+    var year: String {
+        
+        if let releaseDate = releaseDate {
+            let year = Calendar.current.component(Calendar.Component.year, from: releaseDate)
+            return String(year)
+        }
+        return "----"
+    }
+    
     var posterPath: URL? {
         return URL(string: "https://image.tmdb.org/t/p/original\(movie.posterPath )")
     }
@@ -37,5 +50,5 @@ class MovieViewModel {
     init(_ movie: Movie) {
         self.movie = movie
     }
-    
+  
 }

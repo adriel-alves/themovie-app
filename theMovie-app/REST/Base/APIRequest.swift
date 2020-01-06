@@ -18,16 +18,17 @@ struct APIRequest {
 
 extension APIRequest {
     
-    func request(path: String, method: HTTPMethod, page: Int) -> URLRequest {
+    func request(path: String, method: HTTPMethod, queryItems: [URLQueryItem] = []) -> URLRequest {
         var request: URLRequest
         guard let url = URL(string: basePath) else { fatalError("Bad resourceName: \(basePath)") }
         var components = URLComponents(url: url, resolvingAgainstBaseURL: true)!
         
-        let commonQueryItems = [
+        var commonQueryItems = [
             URLQueryItem(name: "api_key", value: apiKey),
-            URLQueryItem(name: "language", value: "en-US"),
-            URLQueryItem(name: "page", value: String(page))
+            URLQueryItem(name: "language", value: "en-US")
         ]
+        
+        commonQueryItems.append(contentsOf: queryItems)
         
         components.queryItems = commonQueryItems
         components.path = "/\(api)/\(path)"

@@ -10,6 +10,8 @@ import UIKit
 
 class PopularMoviesViewController: UIViewController {
     
+    @IBOutlet weak var uiLoading: UIView!
+    @IBOutlet weak var aiLoading: UIActivityIndicatorView!
     @IBOutlet weak var cvPopularMovies: UICollectionView!
     var collectionViewFlowLayout: UICollectionViewFlowLayout!
     let cellIdentifier = "ItemCollectionViewCell"
@@ -18,23 +20,21 @@ class PopularMoviesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigationBar()
-        requestMovies()
-        setupCollectionView()
-        setupCollectionViewItemSize()
+        popularMovies.delegate = self
+        setupUI()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        DispatchQueue.main.async {
-            self.cvPopularMovies?.reloadData()
-        }
+    private func setupUI(){
+        requestMovies()
+        setupNavigationBar()
+        setupCollectionView()
+        setupCollectionViewItemSize()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? MovieDetailViewController {
             if let movie = sender as? MovieViewModel {
-            vc.movie = movie
+                vc.movie = movie
             }
         }
     }
@@ -93,6 +93,17 @@ extension PopularMoviesViewController: UICollectionViewDelegate {
     }
 }
 
-
+extension PopularMoviesViewController: PopularMoviesViewModelDelegate {
+    
+    func didFinishSuccessRequest() {
+        self.cvPopularMovies?.reloadData()
+    }
+    
+    func didFinishFailureRequest(error: APIError) {
+        print(APIError.taskError(error: error))
+    }
+    
+    
+}
 
 

@@ -29,7 +29,7 @@ class HTTP: HTTPClient {
                         completion(.failure(.noResponse))
                         return
                     }
-                    
+
                     if response.statusCode == 200 {
                         guard let data = data else { return }
                         do {
@@ -46,7 +46,6 @@ class HTTP: HTTPClient {
                 }
             }
         }
-        
         dataTask.resume()
     }
 }

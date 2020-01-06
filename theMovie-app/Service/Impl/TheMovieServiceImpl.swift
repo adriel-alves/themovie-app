@@ -9,17 +9,26 @@
 import Foundation
 
 final class TheMovieServiceImpl: TheMovieService {
-    
+   
     let client: HTTPClient
-    
+    let apiDetails = APIRequest()
     init(client: HTTPClient = HTTP()) {
         self.client = client
     }
     
-    func getMovies(completion: @escaping (Result<PopularMovies, APIError>) -> Void) {
-        let apiDetails = APIRequest()
-        let request = apiDetails.request(path: "movie/popular", method: HTTPMethod.get, page: 1)
+    func getMovies(page: Int = 1, completion: @escaping (Result<PopularMovies, APIError>) -> Void) {
+        
+        let queryItems = [
+            URLQueryItem(name: "page", value: String(page))
+        ]
+        let request = apiDetails.request(path: "movie/popular", method: HTTPMethod.get, queryItems: queryItems)
         client.perform(request, completion)
     }
+    
+    func getGenresList(completion: @escaping (Result<Genre, APIError>) -> Void) {
+        let request = apiDetails.request(path: "genre/movie/list", method: HTTPMethod.get)
+        client.perform(request, completion)
+       }
+    
 }
 
