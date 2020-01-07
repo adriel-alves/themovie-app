@@ -9,13 +9,13 @@
 import Foundation
 
 class MovieViewModel {
-    
+   
     var movie: Movie!
     var title: String {
         return movie.title
     }
     
-    var genresIds: [Int] {
+    var genreIds: [Int]  {
         return movie.genreIds
     }
     
@@ -50,5 +50,5 @@ class MovieViewModel {
     init(_ movie: Movie) {
         self.movie = movie
     }
-  
+    
 }

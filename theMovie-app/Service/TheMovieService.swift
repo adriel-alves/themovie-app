@@ -11,6 +11,6 @@ import Foundation
 protocol TheMovieService {
     
     func getMovies(page: Int, completion: @escaping (Result<PopularMovies, APIError>) -> Void)
-    func getGenresList(completion: @escaping (Result<Genre, APIError>) -> Void)
+    func getGenresList(completion: @escaping (Result<[Genre], APIError>) -> Void)
     
 }

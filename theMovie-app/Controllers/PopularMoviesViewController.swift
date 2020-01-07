@@ -10,13 +10,14 @@ import UIKit
 
 class PopularMoviesViewController: UIViewController {
     
-    @IBOutlet weak var uiLoading: UIView!
-    @IBOutlet weak var aiLoading: UIActivityIndicatorView!
     @IBOutlet weak var cvPopularMovies: UICollectionView!
-    var collectionViewFlowLayout: UICollectionViewFlowLayout!
+    @IBOutlet weak var sbMovies: UISearchBar!
+    @IBOutlet weak var uiLoad: UIView!
+    @IBOutlet weak var aiLoad: UIActivityIndicatorView!
+    
     let cellIdentifier = "ItemCollectionViewCell"
     var popularMovies = PopularMoviesViewModel()
-    
+    var collectionViewFlowLayout: UICollectionViewFlowLayout!
     
     override func viewDidLoad() {
         super.viewDidLoad()
