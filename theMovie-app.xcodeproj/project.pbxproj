@@ -12,6 +12,9 @@
 		763121B423C4A96F00AB1987 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763121B323C4A96F00AB1987 /* CoreDataManager.swift */; };
 		763121BC23C4AC2E00AB1987 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 763121BB23C4AC2E00AB1987 /* Main.storyboard */; };
 		763121BF23C4ACBC00AB1987 /* theMovie-app.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 763121BD23C4ACBC00AB1987 /* theMovie-app.xcdatamodeld */; };
+		763121C123C4BB1A00AB1987 /* FavoriteMoviesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763121C023C4BB1A00AB1987 /* FavoriteMoviesTableViewController.swift */; };
+		763121C323C4BC6400AB1987 /* FavoriteMovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763121C223C4BC6400AB1987 /* FavoriteMovieTableViewCell.swift */; };
+		763121C523C4FA0A00AB1987 /* ViewController+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763121C423C4FA0A00AB1987 /* ViewController+CoreData.swift */; };
 		7632052723AD11200015BDC4 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7632052623AD11200015BDC4 /* APIRequest.swift */; };
 		7632D4D723A8262900335953 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7632D4D623A8262900335953 /* AppDelegate.swift */; };
 		7632D4D923A8262900335953 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7632D4D823A8262900335953 /* SceneDelegate.swift */; };
@@ -58,6 +61,9 @@
 		763121B523C4AB8F00AB1987 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		763121BB23C4AC2E00AB1987 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = ../../../../../.Trash/Main.storyboard; sourceTree = "<group>"; };
 		763121BE23C4ACBC00AB1987 /* theMovie-app.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "theMovie-app.xcdatamodel"; sourceTree = "<group>"; };
+		763121C023C4BB1A00AB1987 /* FavoriteMoviesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteMoviesTableViewController.swift; sourceTree = "<group>"; };
+		763121C223C4BC6400AB1987 /* FavoriteMovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteMovieTableViewCell.swift; sourceTree = "<group>"; };
+		763121C423C4FA0A00AB1987 /* ViewController+CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+CoreData.swift"; sourceTree = "<group>"; };
 		7632052623AD11200015BDC4 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		7632D4D323A8262900335953 /* theMovie-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "theMovie-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7632D4D623A8262900335953 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -200,6 +206,8 @@
 		7632D4FC23A8362400335953 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				763121C023C4BB1A00AB1987 /* FavoriteMoviesTableViewController.swift */,
+				763121C223C4BC6400AB1987 /* FavoriteMovieTableViewCell.swift */,
 				763B7FE223A938E5002FEC94 /* ItemCollectionViewCell.swift */,
 				763849BA23B557550015FCD9 /* PopularMoviesViewController.swift */,
 				7637B36623C37B0000A0BEE2 /* MovieListViewController.swift */,
@@ -212,6 +220,7 @@
 			isa = PBXGroup;
 			children = (
 				7633F6CC23B683D4006F471B /* Extensions.swift */,
+				763121C423C4FA0A00AB1987 /* ViewController+CoreData.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -444,8 +453,10 @@
 				7601BBB523AAC18E007101CB /* TheMovieService.swift in Sources */,
 				76368A8123AC69CB0010F1BE /* HTTPMethod.swift in Sources */,
 				763849BD23B55C130015FCD9 /* PopularMoviesViewModel.swift in Sources */,
+				763121C523C4FA0A00AB1987 /* ViewController+CoreData.swift in Sources */,
 				7632052723AD11200015BDC4 /* APIRequest.swift in Sources */,
 				763E55D023ABE3EA0020605F /* HTTPClient.swift in Sources */,
+				763121C323C4BC6400AB1987 /* FavoriteMovieTableViewCell.swift in Sources */,
 				763121BF23C4ACBC00AB1987 /* theMovie-app.xcdatamodeld in Sources */,
 				7635F20623BA8E62004B4058 /* MovieDetailViewController.swift in Sources */,
 				7632D4D723A8262900335953 /* AppDelegate.swift in Sources */,
@@ -453,6 +464,7 @@
 				763E55C423ABC2310020605F /* Genre.swift in Sources */,
 				7632D4D923A8262900335953 /* SceneDelegate.swift in Sources */,
 				763E55D823AC1A400020605F /* PopularMovies.swift in Sources */,
+				763121C123C4BB1A00AB1987 /* FavoriteMoviesTableViewController.swift in Sources */,
 				7633F6CD23B683D4006F471B /* Extensions.swift in Sources */,
 				76341E8623B58261000F4BC6 /* MovieViewModel.swift in Sources */,
 				763E55CB23ABE00E0020605F /* APIError.swift in Sources */,

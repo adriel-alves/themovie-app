@@ -103,8 +103,4 @@ extension PopularMoviesViewController: PopularMoviesViewModelDelegate {
     func didFinishFailureRequest(error: APIError) {
         print(APIError.taskError(error: error))
     }
-    
-    
 }
-
-
