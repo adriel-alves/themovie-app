@@ -20,6 +20,5 @@ extension MovieListViewController: UISearchBarDelegate {
     
     func searchBarResultsListButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-        aiLoad.startAnimating()
     }
 }

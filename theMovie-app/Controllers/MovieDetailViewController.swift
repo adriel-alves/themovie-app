@@ -12,10 +12,11 @@ class MovieDetailViewController: UIViewController {
 
     @IBOutlet weak var ivMoviePoster: UIImageView!
     @IBOutlet weak var lbMovieTitle: UILabel!
-    @IBOutlet weak var lbMovieGenres: UILabel!
     @IBOutlet weak var lbMovieYear: UILabel!
+    @IBOutlet weak var lbMovieGenres: UILabel!
     @IBOutlet weak var tvMovieOverview: UITextView!
     @IBOutlet weak var btFavorite: UIButton!
+    
     
     var movie: MovieViewModel!
     var favoriteMovie: FavoriteMovieData!

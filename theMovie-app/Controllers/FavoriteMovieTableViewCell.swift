@@ -9,11 +9,12 @@
 import UIKit
 
 class FavoriteMovieTableViewCell: UITableViewCell {
-
+    
     @IBOutlet weak var uiMoviePoster: UIImageView!
-    @IBOutlet weak var lbMovieTitle: UILabel!
     @IBOutlet weak var lbYear: UILabel!
     @IBOutlet weak var lbDescription: UILabel!
+    @IBOutlet weak var lbMovieTitle: UILabel!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()

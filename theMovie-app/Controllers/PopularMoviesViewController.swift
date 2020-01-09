@@ -10,10 +10,10 @@ import UIKit
 
 class PopularMoviesViewController: UIViewController {
     
-    @IBOutlet weak var cvPopularMovies: UICollectionView!
+    @IBOutlet weak var cvPopularMovies: UICollectionView!    
     @IBOutlet weak var sbMovies: UISearchBar!
-    @IBOutlet weak var uiLoad: UIView!
-    @IBOutlet weak var aiLoad: UIActivityIndicatorView!
+    
+    
     
     let cellIdentifier = "ItemCollectionViewCell"
     var popularMovies = PopularMoviesViewModel()

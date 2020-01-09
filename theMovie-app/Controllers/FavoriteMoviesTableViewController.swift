@@ -14,6 +14,7 @@ class FavoriteMoviesTableViewController: UITableViewController {
     var fetchedResultController: NSFetchedResultsController<FavoriteMovieData>!
     var label = UILabel()
     let cellIdentifier = "favoriteMovieCell"
+    var result: FavoriteMoviesManager!
     
     override func viewDidLoad() {
         super.viewDidLoad()
