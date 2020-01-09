@@ -22,6 +22,7 @@ class ItemCollectionViewCell: UICollectionViewCell {
     func prepare(with movie: MovieViewModel) {
         uiMoviePoster.load(url: movie.posterPath!)
         lbMovieTitle.text = movie.title
+        uiFavorite.image = movie.favoriteButtonImage
     }
     
     override func prepareForReuse() {

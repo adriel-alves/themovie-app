@@ -12,9 +12,6 @@ class PopularMoviesViewController: UIViewController {
     
     @IBOutlet weak var cvPopularMovies: UICollectionView!    
     @IBOutlet weak var sbMovies: UISearchBar!
-    
-    
-    
     let cellIdentifier = "ItemCollectionViewCell"
     var popularMovies = PopularMoviesViewModel()
     var collectionViewFlowLayout: UICollectionViewFlowLayout!
@@ -23,6 +20,11 @@ class PopularMoviesViewController: UIViewController {
         super.viewDidLoad()
         popularMovies.delegate = self
         setupUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.cvPopularMovies?.reloadData()
     }
     
     private func setupUI(){

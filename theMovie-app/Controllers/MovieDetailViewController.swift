@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class MovieDetailViewController: UIViewController {
     
@@ -17,13 +18,19 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet weak var tvMovieOverview: UITextView!
     @IBOutlet weak var btFavorite: UIButton!
     
-    
     var movie: MovieViewModel!
     var favoriteMovie: FavoriteMovieData!
+    var favoriteManager = FavoriteMoviesManager()
+    var fetchedResults: NSFetchedResultsController<FavoriteMovieData>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         prepare()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        isFavorite()
     }
     
     func prepare() {
@@ -32,22 +39,37 @@ class MovieDetailViewController: UIViewController {
         lbMovieGenres.text = "lista dos generos"
         lbMovieYear.text = movie.year
         tvMovieOverview.text = movie.overview
+        btFavorite.setImage(movie.favoriteButtonImage, for: .normal)
+    }
+    
+    func isFavorite() {
+        //btFavorite.imageView?.image = movie.favoriteButtonImage
+        btFavorite.setImage(movie.favoriteButtonImage, for: .normal)
     }
     
     @IBAction func addFavoriteMovie(_ sender: Any) {
-        
-        if favoriteMovie == nil {
-            favoriteMovie = FavoriteMovieData(context: context)
+        favoriteManager.loadFavoriteMovies(index: movie.id)
+        if favoriteManager.favoriteMoviesData.count == 0 {
+            favoriteMovie = FavoriteMovieData(context: favoriteManager.context)
             favoriteMovie.movieTitle = lbMovieTitle.text
             favoriteMovie.movieYear = lbMovieYear.text
             favoriteMovie.movieDetails = tvMovieOverview.text
             favoriteMovie.moviePoster = ivMoviePoster.image
+            favoriteMovie.id = movie.id
+            do {
+                try favoriteManager.context.save()
+                btFavorite.setImage(UIImage(named: "favorite_full_icon"), for: .normal)
+            } catch {
+                print(error.localizedDescription)
+            }
+        } else {
+            deleteFavoriteMovie()
+            btFavorite.setImage(UIImage(named: "favorite_empty_icon"), for: .normal)
         }
-        do {
-            try context.save()
-        } catch {
-            print(error.localizedDescription)
-        }
+    }
+    
+    func deleteFavoriteMovie() {
+        favoriteManager.deleteFavoriteMoviesById(id: movie.id)
     }
     
     

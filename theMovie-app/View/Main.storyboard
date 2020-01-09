@@ -115,9 +115,9 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nome do Filme" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o5D-jF-Kze">
-                                            <rect key="frame" x="142" y="23" width="212" height="23"/>
+                                            <rect key="frame" x="142" y="23" width="180" height="23"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="212" id="l8N-fo-ih8"/>
+                                                <constraint firstAttribute="width" constant="180" id="l8N-fo-ih8"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                             <nil key="textColor"/>

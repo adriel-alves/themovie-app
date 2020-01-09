@@ -16,4 +16,6 @@ struct Movie: Codable {
     var overview: String = ""
     var releaseDate: String?
     var posterPath: String
+    
+  
 }

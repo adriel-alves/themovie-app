@@ -11,10 +11,11 @@ import CoreData
 
 class FavoriteMoviesTableViewController: UITableViewController {
     
-    var fetchedResultController: NSFetchedResultsController<FavoriteMovieData>!
+    var fetchedResults: NSFetchedResultsController<FavoriteMovieData>!
     var label = UILabel()
     let cellIdentifier = "favoriteMovieCell"
-    var result: FavoriteMoviesManager!
+    var result = FavoriteMoviesManager()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,89 +25,90 @@ class FavoriteMoviesTableViewController: UITableViewController {
     }
     
     func loadFavoriteMovies() {
-        let fetchRequest: NSFetchRequest<FavoriteMovieData> = FavoriteMovieData.fetchRequest()
-        let titleDescriptor = NSSortDescriptor(key: "movieTitle", ascending: true)
-        let yearDescriptor = NSSortDescriptor(key: "movieYear", ascending: true)
-        fetchRequest.sortDescriptors = [titleDescriptor, yearDescriptor]
         
-        fetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResults = result.loadFavoriteMovies()
+        fetchedResults.delegate = self
         
-        fetchedResultController.delegate = self
         do {
-            try fetchedResultController.performFetch()
+            try fetchedResults.performFetch()
         } catch {
             print(error.localizedDescription)
         }
     }
-
+    
+    func deleteFavoriteMovies() {
+        
+    }
+    
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let count = fetchedResultController.fetchedObjects?.count ?? 0
+        let count = fetchedResults.fetchedObjects?.count ?? 0
         tableView.backgroundView = count == 0 ? label : nil
         return count
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! FavoriteMovieTableViewCell
         
-        guard let favoriteMovie = fetchedResultController.fetchedObjects?[indexPath.row] else {
+        guard let favoriteMovie = fetchedResults.fetchedObjects?[indexPath.row] else {
             return cell
         }
         cell.prepare(with: favoriteMovie)
         return cell
     }
     
-
+    
     /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
+     // Override to support conditional editing of the table view.
+     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+     // Return false if you do not want the specified item to be editable.
+     return true
+     }
+     */
+    
     /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
+     // Override to support editing the table view.
+     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+     if editingStyle == .delete {
+     // Delete the row from the data source
+     tableView.deleteRows(at: [indexPath], with: .fade)
+     } else if editingStyle == .insert {
+     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+     }
+     }
+     */
+    
     /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
+     // Override to support rearranging the table view.
+     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+     
+     }
+     */
+    
     /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
+     // Override to support conditional rearranging of the table view.
+     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+     // Return false if you do not want the item to be re-orderable.
+     return true
+     }
+     */
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
 
 extension FavoriteMoviesTableViewController: NSFetchedResultsControllerDelegate {
@@ -114,8 +116,10 @@ extension FavoriteMoviesTableViewController: NSFetchedResultsControllerDelegate 
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         
         switch type {
+        case .insert:
+            tableView.reloadData()
         case .delete:
-            break
+            tableView.reloadData()
         default:
             tableView.reloadData()
         }
