@@ -27,7 +27,6 @@ class PopularMoviesViewController: UIViewController {
     
     private func setupUI(){
         requestMovies()
-        setupNavigationBar()
         setupCollectionView()
         setupCollectionViewItemSize()
     }

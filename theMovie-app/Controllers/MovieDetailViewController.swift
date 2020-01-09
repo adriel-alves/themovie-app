@@ -9,7 +9,7 @@
 import UIKit
 
 class MovieDetailViewController: UIViewController {
-
+    
     @IBOutlet weak var ivMoviePoster: UIImageView!
     @IBOutlet weak var lbMovieTitle: UILabel!
     @IBOutlet weak var lbMovieYear: UILabel!
@@ -34,7 +34,8 @@ class MovieDetailViewController: UIViewController {
         tvMovieOverview.text = movie.overview
     }
     
-    @IBAction func favorite(_ sender: Any) {
+    @IBAction func addFavoriteMovie(_ sender: Any) {
+        
         if favoriteMovie == nil {
             favoriteMovie = FavoriteMovieData(context: context)
             favoriteMovie.movieTitle = lbMovieTitle.text
@@ -47,9 +48,8 @@ class MovieDetailViewController: UIViewController {
         } catch {
             print(error.localizedDescription)
         }
-        
     }
     
     
-
+    
 }

@@ -22,9 +22,3 @@ extension UIImageView {
     }
 }
 
-extension UIViewController {
-    func setupNavigationBar() {
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-    }
-}
