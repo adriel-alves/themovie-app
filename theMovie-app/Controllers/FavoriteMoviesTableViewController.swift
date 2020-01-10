@@ -11,10 +11,10 @@ import CoreData
 
 class FavoriteMoviesTableViewController: UITableViewController {
     
-    var fetchedResults: NSFetchedResultsController<FavoriteMovieData>!
-    var label = UILabel()
-    let cellIdentifier = "favoriteMovieCell"
-    var result = FavoriteMoviesManager()
+    private var fetchedResults: NSFetchedResultsController<FavoriteMovieData>!
+    private var label = UILabel()
+    private let cellIdentifier = "favoriteMovieCell"
+    private var result = FavoriteMoviesManager()
     
     
     override func viewDidLoad() {

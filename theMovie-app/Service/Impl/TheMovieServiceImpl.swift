@@ -10,8 +10,8 @@ import Foundation
 
 final class TheMovieServiceImpl: TheMovieService {
    
-    let client: HTTPClient
-    let apiDetails = APIRequest()
+    private let client: HTTPClient
+    private let apiDetails = APIRequest()
     init(client: HTTPClient = HTTP()) {
         self.client = client
     }

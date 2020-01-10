@@ -19,9 +19,8 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet weak var btFavorite: UIButton!
     
     var movie: MovieViewModel!
-    var favoriteMovie: FavoriteMovieData!
-    var favoriteManager = FavoriteMoviesManager()
-    var fetchedResults: NSFetchedResultsController<FavoriteMovieData>!
+    private var favoriteMovie: FavoriteMovieData!
+    private var favoriteManager = FavoriteMoviesManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()

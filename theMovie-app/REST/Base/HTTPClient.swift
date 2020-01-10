@@ -15,7 +15,7 @@ protocol HTTPClient {
 
 class HTTP: HTTPClient {
     
-    let session: URLSession = .shared
+    private let session: URLSession = .shared
     
     func perform<T: Decodable>(_ request: URLRequest,
                                _ completion: @escaping (Result<T, APIError>) -> Void) {

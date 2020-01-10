@@ -12,9 +12,10 @@ class PopularMoviesViewController: UIViewController {
     
     @IBOutlet weak var cvPopularMovies: UICollectionView!    
     @IBOutlet weak var sbMovies: UISearchBar!
-    let cellIdentifier = "ItemCollectionViewCell"
-    var popularMovies = PopularMoviesViewModel()
-    var collectionViewFlowLayout: UICollectionViewFlowLayout!
+    
+    private let cellIdentifier = "ItemCollectionViewCell"
+    private var popularMovies = PopularMoviesViewModel()
+    private var collectionViewFlowLayout: UICollectionViewFlowLayout!
     
     override func viewDidLoad() {
         super.viewDidLoad()
