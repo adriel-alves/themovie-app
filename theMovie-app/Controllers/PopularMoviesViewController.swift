@@ -16,11 +16,13 @@ class PopularMoviesViewController: UIViewController {
     private let cellIdentifier = "ItemCollectionViewCell"
     private var popularMovies = PopularMoviesViewModel()
     private var collectionViewFlowLayout: UICollectionViewFlowLayout!
+    private var movies: [MovieViewModel] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         popularMovies.delegate = self
         setupUI()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -29,9 +31,11 @@ class PopularMoviesViewController: UIViewController {
     }
     
     private func setupUI(){
+        setupSearchBar()
         requestMovies()
         setupCollectionView()
         setupCollectionViewItemSize()
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -40,6 +44,10 @@ class PopularMoviesViewController: UIViewController {
                 vc.movie = movie
             }
         }
+    }
+    
+    private func setupSearchBar() {
+        sbMovies.delegate = self
     }
     
     private func setupCollectionView() {
@@ -77,12 +85,14 @@ class PopularMoviesViewController: UIViewController {
 extension PopularMoviesViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return popularMovies.movies.count
+        return movies.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = cvPopularMovies.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! ItemCollectionViewCell
-        cell.prepare(with: popularMovies.movies[indexPath.item])
+        guard let cell = cvPopularMovies.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? ItemCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        cell.prepare(with: movies[indexPath.item])
         return cell
     }
     
@@ -91,7 +101,7 @@ extension PopularMoviesViewController: UICollectionViewDataSource {
 extension PopularMoviesViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let movie = popularMovies.movies[indexPath.item]
+        let movie = movies[indexPath.item]
         performSegue(withIdentifier: "movieDetailSegue", sender: movie)
     }
 }
@@ -99,6 +109,7 @@ extension PopularMoviesViewController: UICollectionViewDelegate {
 extension PopularMoviesViewController: PopularMoviesViewModelDelegate {
     
     func didFinishSuccessRequest() {
+        movies = popularMovies.movies
         self.cvPopularMovies?.reloadData()
     }
     
@@ -106,3 +117,27 @@ extension PopularMoviesViewController: PopularMoviesViewModelDelegate {
         print(APIError.taskError(error: error))
     }
 }
+
+extension PopularMoviesViewController: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        guard !searchText.isEmpty else {
+            movies = popularMovies.movies
+            cvPopularMovies?.reloadData()
+            return
+        }
+        
+        movies = popularMovies.movies.filter { (movie) -> Bool in
+            return movie.title.contains(searchText)
+        }
+        cvPopularMovies?.reloadData()
+    }
+    
+}
+

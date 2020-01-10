@@ -33,18 +33,23 @@ class FavoriteMoviesManager {
         }
     }
     
-    func loadFavoriteMovies() -> NSFetchedResultsController<FavoriteMovieData> {
+    func loadFavoriteMovies(filtering: String = "") -> NSFetchedResultsController<FavoriteMovieData> {
         let fetchRequest: NSFetchRequest<FavoriteMovieData> = FavoriteMovieData.fetchRequest()
         let titleDescriptor = NSSortDescriptor(key: "movieTitle", ascending: true)
         let yearDescriptor = NSSortDescriptor(key: "movieYear", ascending: true)
+        if !filtering.isEmpty {
+            let predicate = NSPredicate(format: "movieTitle contains [c] %@", filtering)
+            fetchRequest.predicate = predicate
+        }
+        
         fetchRequest.sortDescriptors = [titleDescriptor, yearDescriptor]
-
+        
         fetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-
+        
         return fetchedResultController
-
+        
     }
-
+    
     func deleteFavoriteMovies(index: Int) {
         let favoriteMovie = favoriteMoviesData[index]
         context.delete(favoriteMovie)
@@ -58,7 +63,7 @@ class FavoriteMoviesManager {
     func deleteFavoriteMoviesById(id: Int64) {
         for favoriteMovie in favoriteMoviesData {
             if id == favoriteMovie.id {
-               context.delete(favoriteMovie)
+                context.delete(favoriteMovie)
             }
         }
         do {

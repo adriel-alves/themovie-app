@@ -57,7 +57,7 @@ class MovieViewModel {
     }
     
     var favoriteButtonImage: UIImage {
-        return favorite ? UIImage(named: "favorite_full_icon")! : UIImage(named: "favorite_empty_icon")!
+        return favorite ? UIImage(named: "favorite_full_icon")! : UIImage(named: "favorite_gray_icon")!
     }
     
     init(_ movie: Movie) {
