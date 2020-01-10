@@ -42,7 +42,6 @@ class MovieDetailViewController: UIViewController {
     }
     
     func isFavorite() {
-        //btFavorite.imageView?.image = movie.favoriteButtonImage
         btFavorite.setImage(movie.favoriteButtonImage, for: .normal)
     }
     

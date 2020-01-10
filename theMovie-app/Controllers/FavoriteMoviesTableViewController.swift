@@ -22,7 +22,11 @@ class FavoriteMoviesTableViewController: UITableViewController {
         label.textAlignment = .center
         loadFavoriteMovies()
         setupSearchBar()
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
     
     func setupSearchBar() {
@@ -34,7 +38,7 @@ class FavoriteMoviesTableViewController: UITableViewController {
     func loadFavoriteMovies(filter: String = "") {
         
         fetchedResults = result.loadFavoriteMovies(filtering: filter)
-        
+        fetchedResults.delegate = self
         do {
             try fetchedResults.performFetch()
         } catch {
@@ -54,23 +58,23 @@ class FavoriteMoviesTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         let count = fetchedResults.fetchedObjects?.count ?? 0
         tableView.backgroundView = count == 0 ? label : nil
         return count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? FavoriteMovieTableViewCell else {
             return UITableViewCell()
         }
-        
         guard let favoriteMovie = fetchedResults.fetchedObjects?[indexPath.row] else {
             return cell
         }
         cell.prepare(with: favoriteMovie)
         return cell
     }
-    
 }
 
 extension FavoriteMoviesTableViewController: NSFetchedResultsControllerDelegate {
@@ -80,12 +84,12 @@ extension FavoriteMoviesTableViewController: NSFetchedResultsControllerDelegate 
         switch type {
         case .delete:
             tableView.reloadData()
+        case .insert:
+            tableView.reloadData()
         default:
             tableView.reloadData()
         }
-        
     }
-    
 }
 
 extension FavoriteMoviesTableViewController: UISearchBarDelegate {
@@ -99,5 +103,4 @@ extension FavoriteMoviesTableViewController: UISearchBarDelegate {
         loadFavoriteMovies(filter: searchBar.text!)
         tableView.reloadData()
     }
-    
 }

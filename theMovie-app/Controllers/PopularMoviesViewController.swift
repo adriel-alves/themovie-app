@@ -123,21 +123,30 @@ extension PopularMoviesViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
         searchBar.resignFirstResponder()
-    }
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
-        guard !searchText.isEmpty else {
+        if searchBar.text!.isEmpty {
             movies = popularMovies.movies
-            cvPopularMovies?.reloadData()
-            return
-        }
-        
-        movies = popularMovies.movies.filter { (movie) -> Bool in
-            return movie.title.contains(searchText)
+        } else {
+            movies = popularMovies.movies.filter { (movie) -> Bool in
+                return movie.title.contains(searchBar.text!)
+            }
         }
         cvPopularMovies?.reloadData()
     }
+    
+    //    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    //
+    //        guard !searchText.isEmpty else {
+    //            movies = popularMovies.movies
+    //            cvPopularMovies?.reloadData()
+    //
+    //            return
+    //        }
+    //
+    //        movies = popularMovies.movies.filter { (movie) -> Bool in
+    //            return movie.title.contains(searchText)
+    //        }
+    //        cvPopularMovies?.reloadData()
+    //    }
     
 }
 
