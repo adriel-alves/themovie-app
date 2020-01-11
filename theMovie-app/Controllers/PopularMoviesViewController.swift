@@ -12,17 +12,17 @@ class PopularMoviesViewController: UIViewController {
     
     @IBOutlet weak var cvPopularMovies: UICollectionView!    
     @IBOutlet weak var sbMovies: UISearchBar!
+    @IBOutlet weak var aiLoading: UIActivityIndicatorView!
     
     private let cellIdentifier = "ItemCollectionViewCell"
     private var popularMovies = PopularMoviesViewModel()
-    private var collectionViewFlowLayout: UICollectionViewFlowLayout!
     private var movies: [MovieViewModel] = []
+    private var itemCollectionViewCell = ItemCollectionViewCell()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         popularMovies.delegate = self
         setupUI()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -34,8 +34,7 @@ class PopularMoviesViewController: UIViewController {
         setupSearchBar()
         requestMovies()
         setupCollectionView()
-        setupCollectionViewItemSize()
-        
+        setupItemCollectionViewCell()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -50,39 +49,23 @@ class PopularMoviesViewController: UIViewController {
         sbMovies.delegate = self
     }
     
-    private func setupCollectionView() {
+    func setupCollectionView() {
         cvPopularMovies.delegate = self
         cvPopularMovies.dataSource = self
         let nib = UINib(nibName: "ItemCollectionViewCell", bundle: nil)
         cvPopularMovies.register(nib, forCellWithReuseIdentifier: cellIdentifier)
     }
     
-    private func setupCollectionViewItemSize() {
-        let itemsPerRow: CGFloat = 2
-        let lineSpacing: CGFloat = 3
-        let interItemSpacing: CGFloat = 1
-        
-        let width = (cvPopularMovies.frame.width - (itemsPerRow - 1) * interItemSpacing) / itemsPerRow
-        let height = width * 1.5
-        
-        collectionViewFlowLayout = UICollectionViewFlowLayout()
-        collectionViewFlowLayout.itemSize = CGSize(width: width, height: height)
-        collectionViewFlowLayout.sectionInset = UIEdgeInsets.zero
-        collectionViewFlowLayout.scrollDirection = .vertical
-        collectionViewFlowLayout.minimumLineSpacing = lineSpacing
-        collectionViewFlowLayout.minimumInteritemSpacing = interItemSpacing
-        
-        cvPopularMovies.setCollectionViewLayout(collectionViewFlowLayout, animated: true)
-        
+    func setupItemCollectionViewCell() {
+        itemCollectionViewCell.setupCollectionViewItemSize(with: cvPopularMovies)
     }
     
     private func requestMovies() {
         popularMovies.requestMovies()
     }
-    
 }
 
-extension PopularMoviesViewController: UICollectionViewDataSource {
+extension PopularMoviesViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return movies.count
@@ -95,10 +78,6 @@ extension PopularMoviesViewController: UICollectionViewDataSource {
         cell.prepare(with: movies[indexPath.item])
         return cell
     }
-    
-}
-
-extension PopularMoviesViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let movie = movies[indexPath.item]
@@ -121,13 +100,13 @@ extension PopularMoviesViewController: PopularMoviesViewModelDelegate {
 extension PopularMoviesViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        
         searchBar.resignFirstResponder()
-        if searchBar.text!.isEmpty {
+        guard let searchText = searchBar.text else { return }
+        if searchText.isEmpty {
             movies = popularMovies.movies
         } else {
             movies = popularMovies.movies.filter { (movie) -> Bool in
-                return movie.title.contains(searchBar.text!)
+                return movie.title.lowercased().contains(searchText.lowercased())
             }
         }
         cvPopularMovies?.reloadData()
@@ -149,4 +128,3 @@ extension PopularMoviesViewController: UISearchBarDelegate {
     //    }
     
 }
-

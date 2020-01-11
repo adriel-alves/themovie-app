@@ -14,6 +14,7 @@ class ItemCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var lbMovieTitle: UILabel!
     @IBOutlet weak var uiFavorite: UIImageView!
     
+    private var collectionViewFlowLayout: UICollectionViewFlowLayout!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -30,5 +31,23 @@ class ItemCollectionViewCell: UICollectionViewCell {
         lbMovieTitle.text = ""
         uiMoviePoster.image = UIImage.init(named: "images")
         
+    }
+    
+    func setupCollectionViewItemSize(with collectionView: UICollectionView) {
+        let itemsPerRow: CGFloat = 2
+        let lineSpacing: CGFloat = 3
+        let interItemSpacing: CGFloat = 1
+        
+        let width = (collectionView.frame.width - (itemsPerRow - 1) * interItemSpacing) / itemsPerRow
+        let height = width * 1.5
+        
+        collectionViewFlowLayout = UICollectionViewFlowLayout()
+        collectionViewFlowLayout.itemSize = CGSize(width: width, height: height)
+        collectionViewFlowLayout.sectionInset = UIEdgeInsets.zero
+        collectionViewFlowLayout.scrollDirection = .vertical
+        collectionViewFlowLayout.minimumLineSpacing = lineSpacing
+        collectionViewFlowLayout.minimumInteritemSpacing = interItemSpacing
+        
+        collectionView.setCollectionViewLayout(collectionViewFlowLayout, animated: true)
     }
 }

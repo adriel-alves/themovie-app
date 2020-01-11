@@ -11,43 +11,33 @@ import CoreData
 
 class FavoriteMoviesTableViewController: UITableViewController {
     
-    private var fetchedResults: NSFetchedResultsController<FavoriteMovieData>!
     private var label = UILabel()
     private let cellIdentifier = "favoriteMovieCell"
-    private var result = FavoriteMoviesManager()
-
+    private var favoriteMoviesManager = FavoriteMoviesManager()
+    private var favoriteMovieData: [FavoriteMovieData] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         label.text = "Sem filmes cadastrados"
         label.textAlignment = .center
-        loadFavoriteMovies()
         setupSearchBar()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        loadFavoriteMovies()
         tableView.reloadData()
     }
     
     func setupSearchBar() {
-        let searchController = UISearchController(searchResultsController: nil)
+        let searchController = UISearchController().setupSearchController()
         searchController.searchBar.delegate = self
         navigationItem.searchController = searchController
     }
     
     func loadFavoriteMovies(filter: String = "") {
-        
-        fetchedResults = result.loadFavoriteMovies(filtering: filter)
-        fetchedResults.delegate = self
-        do {
-            try fetchedResults.performFetch()
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
-    func deleteFavoriteMovies() {
-        
+        favoriteMoviesManager.loadFavoriteMovies(filtering: filter)
+        self.favoriteMovieData = favoriteMoviesManager.favoriteMoviesData
     }
     
     
@@ -59,9 +49,8 @@ class FavoriteMoviesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        let count = fetchedResults.fetchedObjects?.count ?? 0
-        tableView.backgroundView = count == 0 ? label : nil
-        return count
+        tableView.backgroundView = favoriteMovieData.count == 0 ? label : nil
+        return favoriteMovieData.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -69,11 +58,19 @@ class FavoriteMoviesTableViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? FavoriteMovieTableViewCell else {
             return UITableViewCell()
         }
-        guard let favoriteMovie = fetchedResults.fetchedObjects?[indexPath.row] else {
-            return cell
-        }
-        cell.prepare(with: favoriteMovie)
+        
+        cell.prepare(with: favoriteMovieData[indexPath.row])
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete {
+            let favoriteMovie = favoriteMovieData[indexPath.row]
+            favoriteMoviesManager.deleteFavoriteMoviesById(id: favoriteMovie.id)
+            favoriteMovieData.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
     }
 }
 
@@ -93,7 +90,7 @@ extension FavoriteMoviesTableViewController: NSFetchedResultsControllerDelegate 
 }
 
 extension FavoriteMoviesTableViewController: UISearchBarDelegate {
-   
+    
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         loadFavoriteMovies()
         tableView.reloadData()

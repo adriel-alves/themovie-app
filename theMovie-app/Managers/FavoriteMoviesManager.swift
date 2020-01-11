@@ -33,7 +33,7 @@ class FavoriteMoviesManager {
         }
     }
     
-    func loadFavoriteMovies(filtering: String = "") -> NSFetchedResultsController<FavoriteMovieData> {
+    func loadFavoriteMovies(filtering: String = "") {
         let fetchRequest: NSFetchRequest<FavoriteMovieData> = FavoriteMovieData.fetchRequest()
         let titleDescriptor = NSSortDescriptor(key: "movieTitle", ascending: true)
         let yearDescriptor = NSSortDescriptor(key: "movieYear", ascending: true)
@@ -41,20 +41,10 @@ class FavoriteMoviesManager {
             let predicate = NSPredicate(format: "movieTitle contains [c] %@", filtering)
             fetchRequest.predicate = predicate
         }
-        
         fetchRequest.sortDescriptors = [titleDescriptor, yearDescriptor]
         
-        fetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-        
-        return fetchedResultController
-        
-    }
-    
-    func deleteFavoriteMovies(index: Int) {
-        let favoriteMovie = favoriteMoviesData[index]
-        context.delete(favoriteMovie)
         do {
-            try context.save()
+            favoriteMoviesData = try context.fetch(fetchRequest)
         } catch {
             print(error.localizedDescription)
         }
@@ -71,7 +61,5 @@ class FavoriteMoviesManager {
         } catch {
             print(error.localizedDescription)
         }
-        
     }
-    
 }

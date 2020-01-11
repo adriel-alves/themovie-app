@@ -27,11 +27,12 @@ extension UISearchController {
     func setupSearchController() -> UISearchController {
         
         let searchController = UISearchController(searchResultsController: nil)
-        searchController.searchBar.tintColor = .white
         searchController.searchBar.barTintColor = UIColor(named: "defaultcolor")
-        
+        searchController.searchBar.backgroundColor = UIColor(named: "defaultcolor")
         return searchController
     }
     
 }
+
+
 

@@ -46,31 +46,30 @@
                                 <color key="barTintColor" name="defaultcolor"/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
-                            <view hidden="YES" alpha="0.75" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jp5-D5-Ske">
-                                <rect key="frame" x="0.0" y="100" width="375" height="518"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                            </view>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="bgs-Na-rF7">
+                                <rect key="frame" x="177.5" y="323.5" width="20" height="20"/>
+                                <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </activityIndicatorView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <color key="tintColor" name="defaultcolor"/>
+                        <color key="backgroundColor" name="defaultcolor"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="jp5-D5-Ske" firstAttribute="leading" secondItem="h9y-LN-CtC" secondAttribute="leading" id="2e5-hj-d0n"/>
                             <constraint firstItem="Eyt-nO-lBs" firstAttribute="bottom" secondItem="h9y-LN-CtC" secondAttribute="bottom" id="3K5-jh-2Lu"/>
-                            <constraint firstItem="jp5-D5-Ske" firstAttribute="trailing" secondItem="h9y-LN-CtC" secondAttribute="trailing" id="6Ig-jg-btA"/>
                             <constraint firstItem="Eyt-nO-lBs" firstAttribute="top" secondItem="IYL-DQ-TiM" secondAttribute="bottom" symbolic="YES" id="7SS-hS-cLV"/>
                             <constraint firstItem="IYL-DQ-TiM" firstAttribute="top" secondItem="h9y-LN-CtC" secondAttribute="top" id="BK8-MC-LjU"/>
                             <constraint firstItem="Eyt-nO-lBs" firstAttribute="trailing" secondItem="h9y-LN-CtC" secondAttribute="trailing" id="BOS-DS-pxR"/>
                             <constraint firstItem="Eyt-nO-lBs" firstAttribute="top" secondItem="IYL-DQ-TiM" secondAttribute="bottom" symbolic="YES" id="SYC-aq-Vji"/>
+                            <constraint firstItem="bgs-Na-rF7" firstAttribute="centerY" secondItem="tRH-BT-Wmo" secondAttribute="centerY" id="ZnT-bR-Udr"/>
+                            <constraint firstItem="bgs-Na-rF7" firstAttribute="centerX" secondItem="tRH-BT-Wmo" secondAttribute="centerX" id="beG-Vx-dcm"/>
                             <constraint firstItem="IYL-DQ-TiM" firstAttribute="leading" secondItem="h9y-LN-CtC" secondAttribute="leading" id="g2n-ih-P86"/>
                             <constraint firstItem="IYL-DQ-TiM" firstAttribute="trailing" secondItem="h9y-LN-CtC" secondAttribute="trailing" id="ibZ-Ks-Njh"/>
-                            <constraint firstItem="jp5-D5-Ske" firstAttribute="top" secondItem="IYL-DQ-TiM" secondAttribute="bottom" symbolic="YES" id="p76-u5-XUG"/>
                             <constraint firstItem="Eyt-nO-lBs" firstAttribute="leading" secondItem="h9y-LN-CtC" secondAttribute="leading" id="puU-Mq-Jqk"/>
-                            <constraint firstItem="jp5-D5-Ske" firstAttribute="bottom" secondItem="h9y-LN-CtC" secondAttribute="bottom" id="r8Q-21-W1z"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="h9y-LN-CtC"/>
                     </view>
                     <navigationItem key="navigationItem" title="Movie" id="bmo-4C-zXx"/>
                     <connections>
+                        <outlet property="aiLoading" destination="bgs-Na-rF7" id="Ntz-ej-nxP"/>
                         <outlet property="cvPopularMovies" destination="Eyt-nO-lBs" id="lxf-Xg-cS7"/>
                         <outlet property="sbMovies" destination="IYL-DQ-TiM" id="bZ1-1A-Mt6"/>
                     </connections>
@@ -86,11 +85,11 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="7UG-hX-c1s">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" name="defaultcolor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="WM0-yt-PaY">
                             <rect key="frame" x="0.0" y="214" width="375" height="0.0"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="favoriteMovieCell" rowHeight="158" id="yHe-Jy-qNn" customClass="FavoriteMovieTableViewCell" customModule="theMovie_app" customModuleProvider="target">
@@ -203,7 +202,7 @@
                                 <rect key="frame" x="319" y="388" width="22" height="22"/>
                                 <state key="normal" image="favorite_empty_icon"/>
                                 <connections>
-                                    <action selector="addFavoriteMovie:" destination="Lhr-Ot-ZQU" eventType="touchUpInside" id="eDS-Nm-oIP"/>
+                                    <action selector="addOrRemoveFavoriteMovie:" destination="Lhr-Ot-ZQU" eventType="touchUpInside" id="eDS-Nm-oIP"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nome do Filme" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2pD-YK-A0H">
@@ -260,6 +259,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="zbr-hN-0B0">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" name="defaultcolor"/>
                         <color key="barTintColor" name="defaultcolor"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -279,7 +279,8 @@
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="O8Z-AO-9fC">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" name="defaultcolor"/>
+                        <color key="tintColor" name="defaultcolor"/>
                         <color key="barTintColor" name="defaultcolor"/>
                         <color key="selectedImageTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
@@ -301,6 +302,8 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="FyY-ut-vqH">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" name="defaultcolor"/>
+                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="barTintColor" name="defaultcolor"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

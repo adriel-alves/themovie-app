@@ -45,7 +45,7 @@ class MovieDetailViewController: UIViewController {
         btFavorite.setImage(movie.favoriteButtonImage, for: .normal)
     }
     
-    @IBAction func addFavoriteMovie(_ sender: Any) {
+    @IBAction func addOrRemoveFavoriteMovie(_ sender: Any) {
         favoriteManager.loadFavoriteMovies(index: movie.id)
         if favoriteManager.favoriteMoviesData.count == 0 {
             favoriteMovie = FavoriteMovieData(context: favoriteManager.context)
