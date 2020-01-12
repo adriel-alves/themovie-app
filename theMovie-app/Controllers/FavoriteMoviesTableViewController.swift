@@ -15,12 +15,14 @@ class FavoriteMoviesTableViewController: UITableViewController {
     private let cellIdentifier = "favoriteMovieCell"
     private var favoriteMoviesManager = FavoriteMoviesManager()
     private var favoriteMovieData: [FavoriteMovieData] = []
+    private let appearance = UINavigationBarAppearance()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupNavigationBarAppearance()
+        setupSearchBar()
         label.text = "Sem filmes cadastrados"
         label.textAlignment = .center
-        setupSearchBar()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -29,17 +31,23 @@ class FavoriteMoviesTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    func setupSearchBar() {
-        let searchController = UISearchController().setupSearchController()
-        searchController.searchBar.delegate = self
+    private func setupSearchBar() {
+        let searchController = UISearchController(searchResultsController: nil).setupSearchController()
         navigationItem.searchController = searchController
+        searchController.searchBar.delegate = self
     }
     
-    func loadFavoriteMovies(filter: String = "") {
+    private func setupNavigationBarAppearance() {
+        appearance.backgroundColor = UIColor(named: "defaultcolor")
+        appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.black]
+        navigationItem.standardAppearance = appearance
+        navigationItem.scrollEdgeAppearance = appearance
+    }
+    
+    private func loadFavoriteMovies(filter: String = "") {
         favoriteMoviesManager.loadFavoriteMovies(filtering: filter)
         self.favoriteMovieData = favoriteMoviesManager.favoriteMoviesData
     }
-    
     
     // MARK: - Table view data source
     
@@ -70,21 +78,6 @@ class FavoriteMoviesTableViewController: UITableViewController {
             favoriteMoviesManager.deleteFavoriteMoviesById(id: favoriteMovie.id)
             favoriteMovieData.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
-        }
-    }
-}
-
-extension FavoriteMoviesTableViewController: NSFetchedResultsControllerDelegate {
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        
-        switch type {
-        case .delete:
-            tableView.reloadData()
-        case .insert:
-            tableView.reloadData()
-        default:
-            tableView.reloadData()
         }
     }
 }
