@@ -62,6 +62,7 @@ class PopularMoviesViewController: UIViewController {
     
     private func requestMovies() {
         popularMovies.requestMovies()
+    
     }
 }
 
