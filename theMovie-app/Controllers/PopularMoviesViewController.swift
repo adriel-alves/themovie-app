@@ -10,14 +10,14 @@ import UIKit
 
 class PopularMoviesViewController: UIViewController {
     
-    @IBOutlet weak var cvPopularMovies: UICollectionView!    
-    @IBOutlet weak var sbMovies: UISearchBar!
+    @IBOutlet weak var cvPopularMovies: UICollectionView!
     @IBOutlet weak var aiLoading: UIActivityIndicatorView!
     
     private let cellIdentifier = "ItemCollectionViewCell"
     private var popularMovies = PopularMoviesViewModel()
     private var movies: [MovieViewModel] = []
     private var itemCollectionViewCell = ItemCollectionViewCell()
+    private let appearance = UINavigationBarAppearance()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +31,7 @@ class PopularMoviesViewController: UIViewController {
     }
     
     private func setupUI(){
+        setupNavigationBarAppearance()
         setupSearchBar()
         requestMovies()
         setupCollectionView()
@@ -45,8 +46,17 @@ class PopularMoviesViewController: UIViewController {
         }
     }
     
-    private func setupSearchBar() {
-        sbMovies.delegate = self
+   private func setupSearchBar() {
+        let searchController = UISearchController(searchResultsController: nil).setupSearchController()
+        navigationItem.searchController = searchController
+        searchController.searchBar.delegate = self
+    }
+    
+    private func setupNavigationBarAppearance() {
+        appearance.backgroundColor = UIColor(named: "defaultcolor")
+        appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.black]
+        navigationItem.standardAppearance = appearance
+        navigationItem.scrollEdgeAppearance = appearance
     }
     
     func setupCollectionView() {
@@ -101,7 +111,6 @@ extension PopularMoviesViewController: PopularMoviesViewModelDelegate {
 extension PopularMoviesViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
         guard let searchText = searchBar.text else { return }
         if searchText.isEmpty {
             movies = popularMovies.movies
@@ -110,6 +119,11 @@ extension PopularMoviesViewController: UISearchBarDelegate {
                 return movie.title.lowercased().contains(searchText.lowercased())
             }
         }
+        cvPopularMovies?.reloadData()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        movies = popularMovies.movies
         cvPopularMovies?.reloadData()
     }
     

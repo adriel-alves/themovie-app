@@ -17,14 +17,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="IYL-DQ-TiM">
-                                <rect key="frame" x="0.0" y="88" width="414" height="56"/>
-                                <color key="tintColor" name="defaultcolor"/>
-                                <color key="barTintColor" name="defaultcolor"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </searchBar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Eyt-nO-lBs">
-                                <rect key="frame" x="0.0" y="144" width="414" height="669"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="8O5-37-ZS0">
                                     <size key="itemSize" width="50" height="50"/>
@@ -51,18 +45,15 @@
                                 <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </activityIndicatorView>
                         </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Eyt-nO-lBs" firstAttribute="bottom" secondItem="h9y-LN-CtC" secondAttribute="bottom" id="3K5-jh-2Lu"/>
-                            <constraint firstItem="Eyt-nO-lBs" firstAttribute="top" secondItem="IYL-DQ-TiM" secondAttribute="bottom" symbolic="YES" id="7SS-hS-cLV"/>
                             <constraint firstItem="Eyt-nO-lBs" firstAttribute="trailing" secondItem="h9y-LN-CtC" secondAttribute="trailing" id="BOS-DS-pxR"/>
-                            <constraint firstItem="Eyt-nO-lBs" firstAttribute="top" secondItem="IYL-DQ-TiM" secondAttribute="bottom" symbolic="YES" id="SYC-aq-Vji"/>
                             <constraint firstItem="bgs-Na-rF7" firstAttribute="centerY" secondItem="tRH-BT-Wmo" secondAttribute="centerY" id="ZnT-bR-Udr"/>
                             <constraint firstItem="bgs-Na-rF7" firstAttribute="centerX" secondItem="tRH-BT-Wmo" secondAttribute="centerX" id="beG-Vx-dcm"/>
-                            <constraint firstItem="IYL-DQ-TiM" firstAttribute="leading" secondItem="h9y-LN-CtC" secondAttribute="leading" id="g2n-ih-P86"/>
-                            <constraint firstItem="IYL-DQ-TiM" firstAttribute="trailing" secondItem="h9y-LN-CtC" secondAttribute="trailing" id="ibZ-Ks-Njh"/>
-                            <constraint firstItem="IYL-DQ-TiM" firstAttribute="top" secondItem="h9y-LN-CtC" secondAttribute="top" id="imj-4i-vVF"/>
                             <constraint firstItem="Eyt-nO-lBs" firstAttribute="leading" secondItem="h9y-LN-CtC" secondAttribute="leading" id="puU-Mq-Jqk"/>
+                            <constraint firstItem="Eyt-nO-lBs" firstAttribute="top" secondItem="h9y-LN-CtC" secondAttribute="top" id="t8k-kl-aop"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="h9y-LN-CtC"/>
                     </view>
@@ -70,12 +61,11 @@
                     <connections>
                         <outlet property="aiLoading" destination="bgs-Na-rF7" id="Ntz-ej-nxP"/>
                         <outlet property="cvPopularMovies" destination="Eyt-nO-lBs" id="lxf-Xg-cS7"/>
-                        <outlet property="sbMovies" destination="IYL-DQ-TiM" id="bZ1-1A-Mt6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xig-Cc-5L0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-276" y="564.46776611694156"/>
+            <point key="canvasLocation" x="-276.81159420289856" y="563.83928571428567"/>
         </scene>
         <!--Favorites-->
         <scene sceneID="Ggk-O4-Sd1">
@@ -259,6 +249,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="zbr-hN-0B0">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" name="defaultcolor"/>
                         <color key="barTintColor" name="defaultcolor"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -295,7 +286,6 @@
         <!--Favorites-->
         <scene sceneID="81i-7a-X3f">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dXr-Db-VcD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hAq-lq-cNw" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Favorites" image="favorite_full_icon" id="qrq-hb-juH"/>
                     <toolbarItems/>
@@ -309,6 +299,7 @@
                         <segue destination="E6h-wG-8ej" kind="relationship" relationship="rootViewController" id="GNe-1T-A2T"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dXr-Db-VcD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="521" y="566"/>
         </scene>

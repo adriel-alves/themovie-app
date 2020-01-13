@@ -29,18 +29,8 @@ extension UISearchController {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.barTintColor = UIColor(named: "defaultcolor")
         searchController.searchBar.backgroundColor = UIColor(named: "defaultcolor")
-        searchController.hidesNavigationBarDuringPresentation = true
         searchController.obscuresBackgroundDuringPresentation = false
         return searchController
-    }
-}
-
-extension UINavigationBarAppearance {
-    
-    func setupNagivationBarAppearance() {
-        let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = UIColor(named: "defaultcolor")
-        appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.black]
     }
 }
 
