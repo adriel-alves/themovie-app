@@ -17,19 +17,21 @@ class PopularMoviesViewModel {
     
     var theMovieService: TheMovieService
     var movies: [MovieViewModel] = []
+    var total: Int = 0
     
     init(theMovieService: TheMovieService = TheMovieServiceImpl()) {
         self.theMovieService = theMovieService
     }
     
-    func requestMovies() {
+    func requestMovies(currentPage: Int) {
         
-        theMovieService.getMovies(page: 1) { (result) in
+        theMovieService.getMovies(page: currentPage) { (result) in
             switch result {
             case .failure(let error):
                 self.delegate?.didFinishFailureRequest(error: error)
             case .success(let popularMovies):
                 self.movies.append(contentsOf: popularMovies.results.map({ MovieViewModel($0) }))
+                self.total = popularMovies.totalPages
                 self.delegate?.didFinishSuccessRequest()
                 
             }

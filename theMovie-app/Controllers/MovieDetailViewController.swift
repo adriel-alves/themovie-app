@@ -21,10 +21,14 @@ class MovieDetailViewController: UIViewController {
     var movie: MovieViewModel!
     private var favoriteMovie: FavoriteMovieData!
     private var favoriteManager = FavoriteMoviesManager()
+    private var genres: [Genre] = []
+    
+    private var genresService = GenresServiceImpl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        prepare()
+        movie.delegate = self
+        movie.movieGenresList()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -32,17 +36,12 @@ class MovieDetailViewController: UIViewController {
         isFavorite()
     }
     
-    func prepare() {
-        ivMoviePoster.load(url: movie.posterPath!)
-        lbMovieTitle.text = movie.title
-        lbMovieGenres.text = "lista dos generos"
-        lbMovieYear.text = movie.year
-        tvMovieOverview.text = movie.overview
+    func isFavorite() {
         btFavorite.setImage(movie.favoriteButtonImage, for: .normal)
     }
     
-    func isFavorite() {
-        btFavorite.setImage(movie.favoriteButtonImage, for: .normal)
+    func genreList() -> String {
+        return movie.genresList.map({$0.name}).joined(separator: ", ")
     }
     
     @IBAction func addOrRemoveFavoriteMovie(_ sender: Any) {
@@ -69,7 +68,20 @@ class MovieDetailViewController: UIViewController {
     func deleteFavoriteMovie() {
         favoriteManager.deleteFavoriteMoviesById(id: movie.id)
     }
+}
+
+extension MovieDetailViewController: MovieViewModelDelegate {
     
+    func didFinishSuccessRequest() {
+       lbMovieGenres.text = genreList()
+       ivMoviePoster.load(url: movie.posterPath!)
+       lbMovieTitle.text = movie.title
+       lbMovieYear.text = movie.year
+       tvMovieOverview.text = movie.overview
+       btFavorite.setImage(movie.favoriteButtonImage, for: .normal)
+    }
     
-    
+    func didFinishFailureRequest(error: APIError) {
+        print(APIError.taskError(error: error))
+    }
 }

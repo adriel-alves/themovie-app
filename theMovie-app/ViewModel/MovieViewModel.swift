@@ -9,16 +9,20 @@
 import Foundation
 import UIKit
 
+protocol MovieViewModelDelegate:class {
+    func didFinishSuccessRequest()
+    func didFinishFailureRequest(error: APIError)
+}
+
 class MovieViewModel {
-   
+    
+    weak var delegate:MovieViewModelDelegate?
     var movie: Movie!
     var title: String {
         return movie.title
     }
     
-    var genreIds: [Int]  {
-        return movie.genreIds
-    }
+    var genresList: [Genre] = []
     
     var overview: String {
         return movie.overview
@@ -51,7 +55,7 @@ class MovieViewModel {
     var id: Int64 {
         return movie.id
     }
-
+    
     var favorite: Bool {
         return favoriteButtonToggle()
     }
@@ -59,6 +63,8 @@ class MovieViewModel {
     var favoriteButtonImage: UIImage {
         return favorite ? UIImage(named: "favorite_full_icon")! : UIImage(named: "favorite_gray_icon")!
     }
+    
+    var genresService: GenresService = GenresServiceImpl()
     
     init(_ movie: Movie) {
         self.movie = movie
@@ -69,5 +75,16 @@ class MovieViewModel {
         favoriteManager.loadFavoriteMovies(index: id)
         return favoriteManager.favoriteMoviesData.count != 0
     }
-
+    
+    func movieGenresList() {
+        genresService.getGenresList { (result) in
+            switch result {
+            case .failure(let error):
+                self.delegate?.didFinishFailureRequest(error: error)
+            case .success(let genres):
+                self.genresList = genres.genres.filter({genre in self.movie.genreIds.contains(where: {$0 == genre.id})})
+                self.delegate?.didFinishSuccessRequest()
+            }
+        }
+    }
 }

@@ -15,8 +15,6 @@ class FavoriteMovieTableViewCell: UITableViewCell {
     @IBOutlet weak var lbDescription: UILabel!
     @IBOutlet weak var lbMovieTitle: UILabel!
     
-    
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

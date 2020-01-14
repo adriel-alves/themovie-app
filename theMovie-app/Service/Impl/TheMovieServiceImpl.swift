@@ -24,11 +24,5 @@ final class TheMovieServiceImpl: TheMovieService {
         let request = apiDetails.request(path: "movie/popular", method: HTTPMethod.get, queryItems: queryItems)
         client.perform(request, completion)
     }
-    
-    func getGenresList(completion: @escaping (Result<[Genre], APIError>) -> Void) {
-        let request = apiDetails.request(path: "genre/movie/list", method: HTTPMethod.get)
-        client.perform(request, completion)
-       }
-    
 }
 

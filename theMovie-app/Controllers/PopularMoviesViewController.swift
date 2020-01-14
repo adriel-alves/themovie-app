@@ -19,6 +19,9 @@ class PopularMoviesViewController: UIViewController {
     private var itemCollectionViewCell = ItemCollectionViewCell()
     private let appearance = UINavigationBarAppearance()
     
+    var loading = false
+    var currentPage = 1
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         popularMovies.delegate = self
@@ -46,7 +49,7 @@ class PopularMoviesViewController: UIViewController {
         }
     }
     
-   private func setupSearchBar() {
+    private func setupSearchBar() {
         let searchController = UISearchController(searchResultsController: nil).setupSearchController()
         navigationItem.searchController = searchController
         searchController.searchBar.delegate = self
@@ -71,8 +74,9 @@ class PopularMoviesViewController: UIViewController {
     }
     
     private func requestMovies() {
-        popularMovies.requestMovies()
-    
+        loading = true
+        aiLoading.startAnimating()
+        popularMovies.requestMovies(currentPage: currentPage)
     }
 }
 
@@ -94,6 +98,13 @@ extension PopularMoviesViewController: UICollectionViewDataSource, UICollectionV
         let movie = movies[indexPath.item]
         performSegue(withIdentifier: "movieDetailSegue", sender: movie)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == movies.count - 10 && !loading && movies.count != popularMovies.total{
+            currentPage += 1
+            popularMovies.requestMovies(currentPage: currentPage)
+        }
+    }
 }
 
 extension PopularMoviesViewController: PopularMoviesViewModelDelegate {
@@ -101,6 +112,8 @@ extension PopularMoviesViewController: PopularMoviesViewModelDelegate {
     func didFinishSuccessRequest() {
         movies = popularMovies.movies
         self.cvPopularMovies?.reloadData()
+        aiLoading.stopAnimating()
+        loading = false
     }
     
     func didFinishFailureRequest(error: APIError) {
@@ -115,8 +128,15 @@ extension PopularMoviesViewController: UISearchBarDelegate {
         if searchText.isEmpty {
             movies = popularMovies.movies
         } else {
+            var hasResult: Bool = false
             movies = popularMovies.movies.filter { (movie) -> Bool in
-                return movie.title.lowercased().contains(searchText.lowercased())
+                hasResult = movie.title.lowercased().contains(searchText.lowercased())
+                
+                if !hasResult {
+                   // chamar nova tela aqui
+                }
+                return hasResult
+                
             }
         }
         cvPopularMovies?.reloadData()
@@ -124,6 +144,7 @@ extension PopularMoviesViewController: UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         movies = popularMovies.movies
+
         cvPopularMovies?.reloadData()
     }
     

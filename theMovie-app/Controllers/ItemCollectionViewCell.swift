@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ItemCollectionViewCell: UICollectionViewCell {
     
@@ -21,7 +22,13 @@ class ItemCollectionViewCell: UICollectionViewCell {
     }
     
     func prepare(with movie: MovieViewModel) {
-        uiMoviePoster.load(url: movie.posterPath!)
+        //uiMoviePoster.load(url: movie.posterPath!)
+        if let urlImage = movie.posterPath {
+            uiMoviePoster.kf.indicatorType = .activity
+            uiMoviePoster.kf.setImage(with: urlImage)
+        } else {
+            uiMoviePoster.image = UIImage.init(named: "images")
+        }
         lbMovieTitle.text = movie.title
         uiFavorite.image = movie.favoriteButtonImage
     }
