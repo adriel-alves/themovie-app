@@ -16,11 +16,12 @@ class FavoriteMoviesTableViewController: UITableViewController {
     private var favoriteMoviesManager = FavoriteMoviesManager()
     private var favoriteMovieData: [FavoriteMovieData] = []
     private let appearance = UINavigationBarAppearance()
+    @IBOutlet weak var errorView: ErrorView!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigationBarAppearance()
-        setupSearchBar()
+        setupUI()
         label.text = "Sem filmes cadastrados"
         label.textAlignment = .center
     }
@@ -31,21 +32,17 @@ class FavoriteMoviesTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    private func setupSearchBar() {
-        let searchController = UISearchController(searchResultsController: nil).setupSearchController()
-        navigationItem.searchController = searchController
-        searchController.searchBar.delegate = self
-    }
-    
-    private func setupNavigationBarAppearance() {
-        appearance.backgroundColor = UIColor(named: "defaultcolor")
-        appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.black]
-        navigationItem.standardAppearance = appearance
-        navigationItem.scrollEdgeAppearance = appearance
+    private func setupUI() {
+        setupNavigationBarAppearance(appearance: appearance)
+        setupSearchController(delegate: self)
     }
     
     private func loadFavoriteMovies(filter: String = "") {
         favoriteMoviesManager.loadFavoriteMovies(filtering: filter)
+        if favoriteMoviesManager.favoriteMoviesData.count == 0 && !filter.isEmpty {
+            errorView.type = .notFound(searchText: filter)
+            errorView.isHidden = false
+        }
         self.favoriteMovieData = favoriteMoviesManager.favoriteMoviesData
     }
     
@@ -57,7 +54,7 @@ class FavoriteMoviesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        tableView.backgroundView = favoriteMovieData.count == 0 ? label : nil
+//        tableView.backgroundView = favoriteMovieData.count == 0 ? label : nil
         return favoriteMovieData.count
     }
     
@@ -85,12 +82,14 @@ class FavoriteMoviesTableViewController: UITableViewController {
 extension FavoriteMoviesTableViewController: UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        errorView.isHidden = true
         loadFavoriteMovies()
         tableView.reloadData()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        loadFavoriteMovies(filter: searchBar.text!)
+        guard let searchText = searchBar.text else { return }
+        loadFavoriteMovies(filter: searchText)
         tableView.reloadData()
     }
 }

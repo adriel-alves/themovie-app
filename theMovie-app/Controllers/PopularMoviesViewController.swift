@@ -12,6 +12,8 @@ class PopularMoviesViewController: UIViewController {
     
     @IBOutlet weak var cvPopularMovies: UICollectionView!
     @IBOutlet weak var aiLoading: UIActivityIndicatorView!
+    @IBOutlet weak var errorView: ErrorView!
+    
     
     private let cellIdentifier = "ItemCollectionViewCell"
     private var popularMovies = PopularMoviesViewModel()
@@ -34,8 +36,8 @@ class PopularMoviesViewController: UIViewController {
     }
     
     private func setupUI(){
-        setupNavigationBarAppearance()
-        setupSearchBar()
+        setupNavigationBarAppearance(appearance: appearance)
+        setupSearchController(delegate: self)
         requestMovies()
         setupCollectionView()
         setupItemCollectionViewCell()
@@ -48,20 +50,7 @@ class PopularMoviesViewController: UIViewController {
             }
         }
     }
-    
-    private func setupSearchBar() {
-        let searchController = UISearchController(searchResultsController: nil).setupSearchController()
-        navigationItem.searchController = searchController
-        searchController.searchBar.delegate = self
-    }
-    
-    private func setupNavigationBarAppearance() {
-        appearance.backgroundColor = UIColor(named: "defaultcolor")
-        appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.black]
-        navigationItem.standardAppearance = appearance
-        navigationItem.scrollEdgeAppearance = appearance
-    }
-    
+
     func setupCollectionView() {
         cvPopularMovies.delegate = self
         cvPopularMovies.dataSource = self
@@ -117,10 +106,21 @@ extension PopularMoviesViewController: PopularMoviesViewModelDelegate {
     }
     
     func didFinishFailureRequest(error: APIError) {
+        errorView.type = .genericError
+        errorView.isHidden = false
+        errorView.delegate = self
         print(APIError.taskError(error: error))
     }
 }
 
+extension PopularMoviesViewController: ErrorViewDelegate {
+    func errorViewAction() {
+        requestMovies()
+        errorView.isHidden = true
+    }
+    
+    
+}
 extension PopularMoviesViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -133,7 +133,8 @@ extension PopularMoviesViewController: UISearchBarDelegate {
                 hasResult = movie.title.lowercased().contains(searchText.lowercased())
                 
                 if !hasResult {
-                   // chamar nova tela aqui
+                    errorView.type = .notFound(searchText: searchText)
+                    errorView.isHidden = false
                 }
                 return hasResult
                 
@@ -143,9 +144,10 @@ extension PopularMoviesViewController: UISearchBarDelegate {
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        errorView.isHidden = true
         movies = popularMovies.movies
-
         cvPopularMovies?.reloadData()
+        
     }
     
     //    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {

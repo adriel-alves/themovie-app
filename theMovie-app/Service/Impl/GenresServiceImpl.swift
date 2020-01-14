@@ -22,7 +22,7 @@ class GenresServiceImpl: GenresService {
         client.perform(request, completion)
     }
     
-    func movieGenresList(genresIds: [Int]) -> [Genre] {
+    func movieGenresList(genresIds: [Int]) {
         getGenresList { (result) in
             switch result {
             case .failure(let error):
@@ -31,7 +31,6 @@ class GenresServiceImpl: GenresService {
                 self.genresList = genres.genres
             }
         }
-        return genresList.filter({genre in genresIds.contains(where: {$0 == genre.id})})
     }
     
 }
