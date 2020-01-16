@@ -17,7 +17,9 @@ protocol MovieViewModelDelegate:class {
 class MovieViewModel {
     
     weak var delegate:MovieViewModelDelegate?
+    
     var movie: Movie!
+    
     var title: String {
         return movie.title
     }
@@ -49,7 +51,7 @@ class MovieViewModel {
     }
     
     var posterPath: URL? {
-        return URL(string: "https://image.tmdb.org/t/p/original\(movie.posterPath )")
+        return URL(string: "https://image.tmdb.org/t/p/original\(movie.posterPath)")
     }
     
     var id: Int64 {
@@ -57,7 +59,7 @@ class MovieViewModel {
     }
     
     var favorite: Bool {
-        return favoriteButtonToggle()
+        return favoriteManager.fetchById(index: id)?.count != 0
     }
     
     var favoriteButtonImage: UIImage {
@@ -66,18 +68,25 @@ class MovieViewModel {
     
     var genresService: GenresService = GenresServiceImpl()
     
+    var favoriteManager: FavoriteMoviesManagerProtocol = FavoriteMoviesManager()
+    
     init(_ movie: Movie) {
         self.movie = movie
     }
     
-    func favoriteButtonToggle() -> Bool {
-        let favoriteManager = FavoriteMoviesManager()
-        favoriteManager.loadFavoriteMovies(index: id)
-        return favoriteManager.favoriteMoviesData.count != 0
+    func addOrRemoveFavoriteMovie(favoriteMovie: MovieViewModel) {
+        
+        if favoriteManager.fetchById(index: movie.id)?.count == 0 {
+            print(favoriteMovie.posterPath!)
+            favoriteManager.addFavoriteMovie(movieVM: favoriteMovie)
+        } else {
+            favoriteManager.delete(id: movie.id)
+        }
     }
     
     func movieGenresList() {
-        genresService.getGenresList { (result) in
+        
+        genresService.requestGenreList { (result) in
             switch result {
             case .failure(let error):
                 self.delegate?.didFinishFailureRequest(error: error)

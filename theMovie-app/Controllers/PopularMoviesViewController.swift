@@ -46,7 +46,7 @@ class PopularMoviesViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? MovieDetailViewController {
             if let movie = sender as? MovieViewModel {
-                vc.movie = movie
+                vc.movieDetail = movie
             }
         }
     }

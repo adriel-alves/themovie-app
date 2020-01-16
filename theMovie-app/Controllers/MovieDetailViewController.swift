@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Kingfisher
 
 class MovieDetailViewController: UIViewController {
     
@@ -18,17 +19,16 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet weak var tvMovieOverview: UITextView!
     @IBOutlet weak var btFavorite: UIButton!
     
-    var movie: MovieViewModel!
-    private var favoriteMovie: FavoriteMovieData!
-    private var favoriteManager = FavoriteMoviesManager()
+    var movieDetail: MovieViewModel!
+    
     private var genres: [Genre] = []
     
     private var genresService = GenresServiceImpl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        movie.delegate = self
-        movie.movieGenresList()
+        movieDetail.delegate = self
+        movieDetail.movieGenresList()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -37,48 +37,33 @@ class MovieDetailViewController: UIViewController {
     }
     
     func isFavorite() {
-        btFavorite.setImage(movie.favoriteButtonImage, for: .normal)
+        btFavorite.setImage(movieDetail.favoriteButtonImage, for: .normal)
     }
     
     func genreList() -> String {
-        return movie.genresList.map({$0.name}).joined(separator: ", ")
+        return movieDetail.genresList.map({$0.name}).joined(separator: ", ")
     }
     
     @IBAction func addOrRemoveFavoriteMovie(_ sender: Any) {
-        favoriteManager.loadFavoriteMovies(index: movie.id)
-        if favoriteManager.favoriteMoviesData.count == 0 {
-            favoriteMovie = FavoriteMovieData(context: favoriteManager.context)
-            favoriteMovie.movieTitle = lbMovieTitle.text
-            favoriteMovie.movieYear = lbMovieYear.text
-            favoriteMovie.movieDetails = tvMovieOverview.text
-            favoriteMovie.moviePoster = ivMoviePoster.image
-            favoriteMovie.id = movie.id
-            do {
-                try favoriteManager.context.save()
-                btFavorite.setImage(UIImage(named: "favorite_full_icon"), for: .normal)
-            } catch {
-                print(error.localizedDescription)
-            }
-        } else {
-            deleteFavoriteMovie()
-            btFavorite.setImage(UIImage(named: "favorite_empty_icon"), for: .normal)
-        }
-    }
-    
-    func deleteFavoriteMovie() {
-        favoriteManager.deleteFavoriteMoviesById(id: movie.id)
+        
+//        favoriteMovie.moviePoster = ivMoviePoster.image
+        movieDetail.addOrRemoveFavoriteMovie(favoriteMovie: movieDetail)
+        isFavorite()
+        
     }
 }
 
 extension MovieDetailViewController: MovieViewModelDelegate {
     
     func didFinishSuccessRequest() {
-       lbMovieGenres.text = genreList()
-       ivMoviePoster.load(url: movie.posterPath!)
-       lbMovieTitle.text = movie.title
-       lbMovieYear.text = movie.year
-       tvMovieOverview.text = movie.overview
-       btFavorite.setImage(movie.favoriteButtonImage, for: .normal)
+        lbMovieGenres.text = genreList()
+        //ivMoviePoster.load(url: movieDetail.posterPath!)
+        ivMoviePoster.kf.indicatorType = .activity
+        ivMoviePoster.kf.setImage(with: movieDetail.posterPath)
+        lbMovieTitle.text = movieDetail.title
+        lbMovieYear.text = movieDetail.year
+        tvMovieOverview.text = movieDetail.overview
+        btFavorite.setImage(movieDetail.favoriteButtonImage, for: .normal)
     }
     
     func didFinishFailureRequest(error: APIError) {

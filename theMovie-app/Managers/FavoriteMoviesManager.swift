@@ -9,11 +9,14 @@
 import Foundation
 import CoreData
 import UIKit
+import Kingfisher
 
-class FavoriteMoviesManager {
+
+
+class FavoriteMoviesManager: FavoriteMoviesManagerProtocol {
     
-    var fetchedResultController: NSFetchedResultsController<FavoriteMovieData>!
-    var favoriteMoviesData: [FavoriteMovieData] = []
+    private var fetchedResultController: NSFetchedResultsController<FavoriteMovieData>!
+    
     var context: NSManagedObjectContext {
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -21,19 +24,22 @@ class FavoriteMoviesManager {
         
     }
     
-    func loadFavoriteMovies(index: Int64) {
+    func fetchById(index: Int64) -> [FavoriteMovieData]? {
+        
         let fetchRequest: NSFetchRequest<FavoriteMovieData> = FavoriteMovieData.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "movieTitle", ascending: true)
         fetchRequest.predicate = NSPredicate(format: "id == %@", String(index))
         fetchRequest.sortDescriptors = [sortDescriptor]
         do {
-            favoriteMoviesData = try context.fetch(fetchRequest)
+            return try context.fetch(fetchRequest)
+            
         } catch {
             print(error.localizedDescription)
+            return nil
         }
     }
     
-    func loadFavoriteMovies(filtering: String = "") {
+    func fetch(filtering: String = "") -> [FavoriteMovieData]? {
         let fetchRequest: NSFetchRequest<FavoriteMovieData> = FavoriteMovieData.fetchRequest()
         let titleDescriptor = NSSortDescriptor(key: "movieTitle", ascending: true)
         let yearDescriptor = NSSortDescriptor(key: "movieYear", ascending: true)
@@ -44,13 +50,49 @@ class FavoriteMoviesManager {
         fetchRequest.sortDescriptors = [titleDescriptor, yearDescriptor]
         
         do {
-            favoriteMoviesData = try context.fetch(fetchRequest)
+            return try context.fetch(fetchRequest)
         } catch {
             print(error.localizedDescription)
+            return nil
         }
     }
     
-    func deleteFavoriteMoviesById(id: Int64) {
+    func addFavoriteMovie(favoriteMovieData: FavoriteMovieData) {
+        
+        do {
+            try context.save()
+            
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+    }
+    
+    func addFavoriteMovie(movieVM: MovieViewModel) {
+        
+        let favoriteMovie = FavoriteMovieData(context: context)
+        let moviePoster: UIImageView = UIImageView()
+        moviePoster.kf.setImage(with: movieVM.posterPath)
+        favoriteMovie.movieTitle = movieVM.title
+        favoriteMovie.movieYear = movieVM.year
+        favoriteMovie.movieDetails = movieVM.overview
+        favoriteMovie.moviePoster = moviePoster.image
+        favoriteMovie.id = movieVM.id
+        
+        do {
+            try context.save()
+            
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+        
+    }
+    
+    func delete(id: Int64) {
+        
+        guard let favoriteMoviesData = fetch(filtering: "") else { return }
+        
         for favoriteMovie in favoriteMoviesData {
             if id == favoriteMovie.id {
                 context.delete(favoriteMovie)

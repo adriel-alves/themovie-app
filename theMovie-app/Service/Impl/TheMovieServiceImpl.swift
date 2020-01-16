@@ -12,6 +12,7 @@ final class TheMovieServiceImpl: TheMovieService {
    
     private let client: HTTPClient
     private let apiDetails = APIRequest()
+    
     init(client: HTTPClient = HTTP()) {
         self.client = client
     }

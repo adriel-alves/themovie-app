@@ -17,13 +17,13 @@ class GenresServiceImpl: GenresService {
         self.client = client
     }
     
-    internal func getGenresList(completion: @escaping (Result<GenreList, APIError>) -> Void) {
+    internal func requestGenreList(completion: @escaping (Result<GenreList, APIError>) -> Void) {
         let request = apiDetails.request(path: "genre/movie/list", method: HTTPMethod.get)
         client.perform(request, completion)
     }
     
     func movieGenresList(genresIds: [Int]) {
-        getGenresList { (result) in
+        requestGenreList { (result) in
             switch result {
             case .failure(let error):
                 print(error.localizedDescription)

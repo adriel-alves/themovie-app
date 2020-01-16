@@ -13,11 +13,10 @@ class FavoriteMoviesTableViewController: UITableViewController {
     
     private var label = UILabel()
     private let cellIdentifier = "favoriteMovieCell"
-    private var favoriteMoviesManager = FavoriteMoviesManager()
+    private var favoriteMoviesManager: FavoriteMoviesManagerProtocol = FavoriteMoviesManager()
     private var favoriteMovieData: [FavoriteMovieData] = []
     private let appearance = UINavigationBarAppearance()
     @IBOutlet weak var errorView: ErrorView!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,12 +37,14 @@ class FavoriteMoviesTableViewController: UITableViewController {
     }
     
     private func loadFavoriteMovies(filter: String = "") {
-        favoriteMoviesManager.loadFavoriteMovies(filtering: filter)
-        if favoriteMoviesManager.favoriteMoviesData.count == 0 && !filter.isEmpty {
+        
+        if favoriteMoviesManager.fetch(filtering: filter)?.count == 0 && !filter.isEmpty {
             errorView.type = .notFound(searchText: filter)
             errorView.isHidden = false
         }
-        self.favoriteMovieData = favoriteMoviesManager.favoriteMoviesData
+        if let favoriteMovies = favoriteMoviesManager.fetch(filtering: filter) {
+            self.favoriteMovieData = favoriteMovies
+        }
     }
     
     // MARK: - Table view data source
@@ -72,7 +73,7 @@ class FavoriteMoviesTableViewController: UITableViewController {
         
         if editingStyle == .delete {
             let favoriteMovie = favoriteMovieData[indexPath.row]
-            favoriteMoviesManager.deleteFavoriteMoviesById(id: favoriteMovie.id)
+            favoriteMoviesManager.delete(id: favoriteMovie.id)
             favoriteMovieData.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
