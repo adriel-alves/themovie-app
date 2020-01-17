@@ -13,7 +13,10 @@ import CoreData
 @testable import theMovie_app
 
 class FavoriteMovieManagerMock: FavoriteMoviesManagerProtocol {
-   
+    
+    var addFavoriteCalled: Bool = false
+    var deleteFavoriteCalled: Bool = false
+    
     var managedObjectContext: NSManagedObjectContext {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         return appDelegate.persistentContainer.viewContext
@@ -29,7 +32,7 @@ class FavoriteMovieManagerMock: FavoriteMoviesManagerProtocol {
         favoriteMovieData.movieYear = "0000"
         favoriteMovieData.movieDetails = "Voa e solta raio"
         favoriteMovieData.moviePoster = UIImage(named: "images")
-        favoriteMovieData.id = 123
+        favoriteMovieData.id = 111
         
         var favoriteMovieData2: FavoriteMovieData!
         favoriteMovieData2 = FavoriteMovieData(context: managedObjectContext)
@@ -37,19 +40,54 @@ class FavoriteMovieManagerMock: FavoriteMoviesManagerProtocol {
         favoriteMovieData2.movieYear = "1000"
         favoriteMovieData2.movieDetails = "Genio bilionario playboy filantropo"
         favoriteMovieData2.moviePoster = UIImage(named: "images")
-        favoriteMovieData2.id = 123
+        favoriteMovieData2.id = 222
         
         favoriteMovies.append(contentsOf: [favoriteMovieData, favoriteMovieData2])
         
         return favoriteMovies
     }
     
-    func fetch(filtering: String = "") -> [FavoriteMovieData]? { return buildFavoriteMovieData() }
+    func favoriteMovieFetched(index: Int64) -> [FavoriteMovieData] {
+        var result: [FavoriteMovieData] = []
+        
+        for favoriteMovie in buildFavoriteMovieData() {
+            
+            if favoriteMovie.id == index {
+                result.append(favoriteMovie)
+            }
+        }
+        
+        return result
+    }
     
-    func fetchById(index: Int64) -> [FavoriteMovieData]? { return buildFavoriteMovieData() }
+    func favoriteMovieFetched(filtering: String = "") -> [FavoriteMovieData] {
+        var result: [FavoriteMovieData] = []
+        
+        for favoriteMovie in buildFavoriteMovieData() {
+            
+            if favoriteMovie.movieTitle == filtering {
+                result.append(favoriteMovie)
+            }
+        }
+        
+        return result
+    }
     
-    func addFavoriteMovie(movieVM: MovieViewModel) { }
+    func fetch(filtering: String = "") -> [FavoriteMovieData]? {
+        
+        return favoriteMovieFetched(filtering: filtering)
+    }
     
-    func delete(id: Int64) { }
+    func fetchById(index: Int64) -> [FavoriteMovieData]? {
+        return favoriteMovieFetched(index: index)
+    }
+    
+    func addFavoriteMovie(movieVM: MovieViewModel) {
+        addFavoriteCalled = true
+    }
+    
+    func delete(id: Int64) {
+        deleteFavoriteCalled = true
+    }
     
 }

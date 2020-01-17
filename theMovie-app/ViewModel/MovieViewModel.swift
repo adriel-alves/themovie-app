@@ -76,11 +76,10 @@ class MovieViewModel {
     
     func addOrRemoveFavoriteMovie(favoriteMovie: MovieViewModel) {
         
-        if favoriteManager.fetchById(index: movie.id)?.count == 0 {
-            print(favoriteMovie.posterPath!)
+        if favoriteManager.fetchById(index: favoriteMovie.id)?.count == 0 {
             favoriteManager.addFavoriteMovie(movieVM: favoriteMovie)
         } else {
-            favoriteManager.delete(id: movie.id)
+            favoriteManager.delete(id: favoriteMovie.id)
         }
     }
     

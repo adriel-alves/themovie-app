@@ -132,7 +132,7 @@
                                         <constraint firstItem="qQH-2g-gxI" firstAttribute="top" secondItem="cyl-St-LlA" secondAttribute="topMargin" constant="6" id="AD0-8G-yMc"/>
                                         <constraint firstAttribute="bottom" secondItem="3SG-Sp-VZP" secondAttribute="bottom" constant="6" id="COY-5N-MOA"/>
                                         <constraint firstAttribute="trailing" secondItem="s7U-2L-u6L" secondAttribute="trailing" constant="6" id="Cll-Ai-V1M"/>
-                                        <constraint firstItem="qQH-2g-gxI" firstAttribute="bottom" secondItem="cyl-St-LlA" secondAttribute="bottomMargin" constant="6" id="J3n-aU-WFX"/>
+                                        <constraint firstItem="qQH-2g-gxI" firstAttribute="bottom" relation="lessThanOrEqual" secondItem="cyl-St-LlA" secondAttribute="bottomMargin" constant="6" id="J3n-aU-WFX"/>
                                         <constraint firstItem="s7U-2L-u6L" firstAttribute="top" secondItem="o5D-jF-Kze" secondAttribute="top" id="WWR-lD-QQ3"/>
                                         <constraint firstItem="o5D-jF-Kze" firstAttribute="leading" secondItem="qQH-2g-gxI" secondAttribute="trailing" constant="6" id="Wl8-9D-qWw"/>
                                         <constraint firstItem="3SG-Sp-VZP" firstAttribute="trailing" secondItem="cyl-St-LlA" secondAttribute="trailingMargin" constant="6" id="Zcb-KV-krm"/>
@@ -197,7 +197,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="juG-6t-Yre">
-                                <rect key="frame" x="296" y="375" width="44" height="42"/>
+                                <rect key="frame" x="318" y="375" width="22" height="22"/>
                                 <state key="normal" image="favorite_empty_icon"/>
                                 <connections>
                                     <action selector="addOrRemoveFavoriteMovie:" destination="Lhr-Ot-ZQU" eventType="touchUpInside" id="eDS-Nm-oIP"/>
