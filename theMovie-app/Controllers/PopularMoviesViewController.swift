@@ -50,7 +50,7 @@ class PopularMoviesViewController: UIViewController {
             }
         }
     }
-
+    
     func setupCollectionView() {
         cvPopularMovies.delegate = self
         cvPopularMovies.dataSource = self
@@ -94,7 +94,20 @@ extension PopularMoviesViewController: UICollectionViewDataSource, UICollectionV
             popularMovies.requestMovies(currentPage: currentPage)
         }
     }
-}
+    
+    func filterMovies(searchText: String) -> [MovieViewModel] {
+        
+        if searchText.isEmpty {
+            movies = popularMovies.movies
+        } else {
+            movies = popularMovies.movies.filter({$0.title.lowercased().contains(searchText.lowercased())})
+//            movies = popularMovies.movies.filter { (movie) -> Bool in
+//                hasResult = movie.title.lowercased().contains(searchText.lowercased())
+//                return hasResult
+            }
+        return movies
+        }
+    }
 
 extension PopularMoviesViewController: PopularMoviesViewModelDelegate {
     
@@ -118,30 +131,23 @@ extension PopularMoviesViewController: ErrorViewDelegate {
         requestMovies()
         errorView.isHidden = true
     }
-    
-    
 }
+
 extension PopularMoviesViewController: UISearchBarDelegate {
     
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
         guard let searchText = searchBar.text else { return }
-        if searchText.isEmpty {
-            movies = popularMovies.movies
-        } else {
-            var hasResult: Bool = false
-            movies = popularMovies.movies.filter { (movie) -> Bool in
-                hasResult = movie.title.lowercased().contains(searchText.lowercased())
-                
-                if !hasResult {
-                    errorView.type = .notFound(searchText: searchText)
-                    errorView.isHidden = false
-                }
-                return hasResult
-                
-            }
+        
+        if filterMovies(searchText: searchText).count == 0 {
+            errorView.type = .notFound(searchText: searchText)
+            errorView.isHidden = false
         }
-        cvPopularMovies?.reloadData()
+         cvPopularMovies?.reloadData()
+
     }
+    
+    
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         errorView.isHidden = true
@@ -149,20 +155,4 @@ extension PopularMoviesViewController: UISearchBarDelegate {
         cvPopularMovies?.reloadData()
         
     }
-    
-    //    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-    //
-    //        guard !searchText.isEmpty else {
-    //            movies = popularMovies.movies
-    //            cvPopularMovies?.reloadData()
-    //
-    //            return
-    //        }
-    //
-    //        movies = popularMovies.movies.filter { (movie) -> Bool in
-    //            return movie.title.contains(searchText)
-    //        }
-    //        cvPopularMovies?.reloadData()
-    //    }
-    
 }
