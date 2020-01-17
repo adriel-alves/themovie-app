@@ -15,7 +15,7 @@ protocol HTTPClient {
 
 class HTTP: HTTPClient {
     
-    let session: URLSession = .shared
+    private let session: URLSession = .shared
     
     func perform<T: Decodable>(_ request: URLRequest,
                                _ completion: @escaping (Result<T, APIError>) -> Void) {
@@ -29,7 +29,7 @@ class HTTP: HTTPClient {
                         completion(.failure(.noResponse))
                         return
                     }
-                    
+
                     if response.statusCode == 200 {
                         guard let data = data else { return }
                         do {
@@ -46,7 +46,6 @@ class HTTP: HTTPClient {
                 }
             }
         }
-        
         dataTask.resume()
     }
 }

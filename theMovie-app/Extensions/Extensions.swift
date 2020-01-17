@@ -21,3 +21,27 @@ extension UIImageView {
         }
     }
 }
+
+extension UIViewController {
+    
+    func setupSearchController(delegate: UISearchBarDelegate) {
+        
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchBar.barTintColor = UIColor(named: "defaultcolor")
+        searchController.searchBar.backgroundColor = UIColor(named: "defaultcolor")
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.delegate = delegate
+        navigationItem.searchController = searchController
+       
+    }
+    
+    func setupNavigationBarAppearance(appearance: UINavigationBarAppearance) {
+        appearance.backgroundColor = UIColor(named: "defaultcolor")
+        appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.black]
+        navigationItem.standardAppearance = appearance
+        navigationItem.scrollEdgeAppearance = appearance
+    }
+}
+
+
+

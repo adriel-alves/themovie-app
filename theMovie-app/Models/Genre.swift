@@ -14,3 +14,7 @@ struct Genre: Codable {
     var name: String
     
 }
+
+struct GenreList: Codable {
+    var genres: [Genre]
+}
