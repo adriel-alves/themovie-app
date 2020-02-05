@@ -13,7 +13,6 @@ protocol FavoriteMoviesManagerProtocol {
     func fetch(filtering: String) -> [FavoriteMovieData]?
     func fetchById(index: Int64) -> [FavoriteMovieData]?
     func delete(id: Int64)
-    //func addFavoriteMovie(favoriteMovieData: FavoriteMovieData)
     func addFavoriteMovie(movieVM: MovieViewModel)
     
 }

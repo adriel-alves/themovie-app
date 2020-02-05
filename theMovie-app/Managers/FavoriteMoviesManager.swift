@@ -11,8 +11,6 @@ import CoreData
 import UIKit
 import Kingfisher
 
-
-
 class FavoriteMoviesManager: FavoriteMoviesManagerProtocol {
     
     private var fetchedResultController: NSFetchedResultsController<FavoriteMovieData>!
@@ -21,7 +19,6 @@ class FavoriteMoviesManager: FavoriteMoviesManagerProtocol {
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         return appDelegate.persistentContainer.viewContext
-        
     }
     
     func fetchById(index: Int64) -> [FavoriteMovieData]? {
@@ -57,17 +54,6 @@ class FavoriteMoviesManager: FavoriteMoviesManagerProtocol {
         }
     }
     
-    func addFavoriteMovie(favoriteMovieData: FavoriteMovieData) {
-        
-        do {
-            try context.save()
-            
-        } catch {
-            print(error.localizedDescription)
-        }
-        
-    }
-    
     func addFavoriteMovie(movieVM: MovieViewModel) {
         
         let favoriteMovie = FavoriteMovieData(context: context)
@@ -85,8 +71,6 @@ class FavoriteMoviesManager: FavoriteMoviesManagerProtocol {
         } catch {
             print(error.localizedDescription)
         }
-        
-        
     }
     
     func delete(id: Int64) {

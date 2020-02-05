@@ -12,5 +12,4 @@ import Foundation
 protocol GenresService {
     
     func requestGenreList(completion: @escaping (Result<GenreList, APIError>) -> Void)
-    func movieGenresList(genresIds: [Int])
 }

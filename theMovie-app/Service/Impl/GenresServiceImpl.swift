@@ -21,18 +21,6 @@ class GenresServiceImpl: GenresService {
         let request = apiDetails.request(path: "genre/movie/list", method: HTTPMethod.get)
         client.perform(request, completion)
     }
-    
-    func movieGenresList(genresIds: [Int]) {
-        requestGenreList { (result) in
-            switch result {
-            case .failure(let error):
-                print(error.localizedDescription)
-            case .success(let genres):
-                self.genresList = genres.genres
-            }
-        }
-    }
-    
 }
 
 
